@@ -60,16 +60,36 @@
                       aria-expanded="false"
                       ><h5>Profile</h5></a
                     >
+                    @auth
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#"><h5>username</h5></a>
-                      <a class="dropdown-item" href="#"><h5>email</h5></a>
-                        <a class="dropdown-item" href="#"><h5>Update Profile</h5></a>
-                      <a class="dropdown-item" href="#"><h5>Logout</h5></a>
-                    </div>
+                      <a class="dropdown-item" href="#">
+                          <h5>{{ auth()->user()->name }}</h5>
+                      </a>
+                      <a class="dropdown-item" href="#">
+                          <h5>{{ auth()->user()->email }}</h5>
+                      </a>
+                      <a class="dropdown-item" href="#">
+                          <h5>Update Profile</h5>
+                      </a>
+                      <form action="{{ route('users.logout') }}" method="POST">
+                          @csrf
+                          <button type="submit" class="dropdown-item" style="cursor: pointer;">
+                              <h5>Logout</h5>
+                          </button>
+                      </form>
+                  </div>
+                  
+                    @endauth
                   </li>
+                  @auth
+                  
+              @else
+                  <!-- User is not authenticated -->
+                  <!-- Display the login/signup link -->
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                    <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
+                      <a class="nav-link" href="{{ route('users.login') }}"><h5>Login/SignUp</h5></a>
                   </li>
+              @endauth
                   
 
                      <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">

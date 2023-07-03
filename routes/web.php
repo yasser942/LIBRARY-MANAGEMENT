@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +15,24 @@ use App\Http\Controllers\BookController;
 |
 */
 
-Route::get('/books', [BookController::class, 'index'])->name('books.index');
+
+Route::get('/', [BookController::class, 'index'])->name('index');
+Route::get('/books', [BookController::class, 'books'])->name('books.index');
+
+
+
+Route::get('/register', [UserController::class, 'create'])->name('users.registerform');
+Route::post('/register', [UserController::class, 'store'])->name('users.register');
+Route::get('/login', [UserController::class, 'loginform'])->name('users.login');
+Route::post('/login', [UserController::class, 'login'])->name('users.login.submit');
+Route::post('/logout', [UserController::class, 'logout'])->name('users.logout');
+
+Route::group(['middleware' => 'admin'], function () {
+    
+
+  Route::get('/admin/dashboard', [UserController::class, 'adminDashboard'])->name('admin.dashboard');
+
+});
+
+
+
