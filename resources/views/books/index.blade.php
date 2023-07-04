@@ -32,7 +32,7 @@
               <a
                 class="navbar-brand"
                 href="/"
-                target="_blank"
+                
                 ><h1><i class="fa fa-book"></i> LMS</h1></a>
 
               <button
@@ -51,6 +51,8 @@
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
                 
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
+                    
+                    @auth
                     <a
                       class="nav-link dropdown-toggle"
                       data-toggle="dropdown"
@@ -60,7 +62,6 @@
                       aria-expanded="false"
                       ><h5>Profile</h5></a
                     >
-                    @auth
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="#">
                           <h5>{{ auth()->user()->name }}</h5>
@@ -90,16 +91,22 @@
                       <a class="nav-link" href="{{ route('users.login') }}"><h5>Login/SignUp</h5></a>
                   </li>
               @endauth
-                  
-
-                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="/lib_dashboard"><h5>Dashboard</h5></a>
+                   @auth
+                       @if (auth()->user()->role == 'admin')
+                       <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                        <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
                      </li>
                     
                    
-                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                   
+                       @else
+                       <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                         <a class="nav-link" href="/user_dashboard"><h5>Dashboard</h5></a>
                      </li>
+                       @endif
+                   @endauth
+
+                   
                    
 
                 </ul>
@@ -114,6 +121,13 @@
     <br>
     <br>
     <br>
+    @if (session('success'))
+    <div class="alert alert-info alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+      <strong>{{ session('success') }}</strong>
+    </div>
+   @endif
+   
     <h1>History</h1>
     <div class="container-fluid" id="s">
      <div class="slider owl-carousel">
@@ -259,5 +273,6 @@
         autoplayHoverPause: true,
       });
     </script>
+    
   </body>
 </html>

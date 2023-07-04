@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <title>LMS</title>
@@ -15,7 +16,11 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="css\style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/add_book.css') }}" />
+
+    
   </head>
   <body>
     <div class="navigation-wrap bg-light start-header start-style">
@@ -26,7 +31,7 @@
               <a
                 class="navbar-brand"
                 href="/"
-                
+               
                 ><h1><i class="fa fa-book"></i> LMS</h1></a>
 
               <button
@@ -43,15 +48,61 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
+                  @auth
+                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
+                    <a
+                      class="nav-link dropdown-toggle"
+                      data-toggle="dropdown"
+                      href="#"
+                      role="button"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      ><h5>Profile</h5></a
+                    >
+                     <div class="dropdown-menu">
+                      <a class="dropdown-item"><h5>{{auth()->user()->name}}</h5></a>
+                      <a class="dropdown-item"><h5>{{auth()->user()->email}}</h5></a>
+                         <a class="dropdown-item" href="#"><h5>Update Profile</h5></a>
+                         <form action="{{ route('users.logout') }}" method="POST">
+                          @csrf
+                          <button type="submit" class="dropdown-item" style="cursor: pointer;">
+                              <h5>Logout</h5>
+                          </button>
+                      </form>
+                    </div>
+                  </li> 
+
+
+                  @else
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                    <a class="nav-link" href="/"><h5>Home</h5></a>
+                    <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
                   </li>
+                  @endauth
+                     
+
+                  @auth
+
+                  @if (auth()->user()->role=='admin')
+                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                    <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
+                 </li>
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                    <a class="nav-link" href="/register"><h5>SignUp</h5></a>
+                    <a class="nav-link" href="{{route('books.index')}}"><h5>Books</h5></a>
                   </li>
+                  @else
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                    <a class="nav-link" href="/books"><h5>Books</h5></a>
-                  </li>
+                    <a class="nav-link" href="{{route('books.index')}}"><h5>Books</h5></a>
+                 </li>
+                  @endif
+                  
+
+               
+                
+                  @endauth
+
+                  
+                     
+                    
 
                 </ul>
               </div>
@@ -65,25 +116,16 @@
     <br>
     <br>
     <br>
+
+
     <div class="container">
       <div class="row py-5 mt-4 align-items-center">
-        <!-- For Demo Purpose -->
-        <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
-          <img
-            src="images\login.png"
-            alt=""
-            class="img-fluid mb-3 d-none d-md-block"
-          />
-          <h1>Login into your Account</h1>
-        </div>
 
-        <!-- Login Form -->
+        <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
+          <img src="{{ asset('images/i1.png') }}" alt="" class="img-fluid mb-3 d-none d-md-block" />
+          <h1>Remove Book</h1>
+        </div>
         <div class="col-md-7 col-lg-6 ml-auto">
-          @if (session('success'))
-              <div class="alert alert-success">
-                  {{ session('success') }}
-              </div>
-          @endif
           @if($errors->any())
         
           <div>
@@ -99,63 +141,61 @@
           </div>
       @endif
 
-<!-- Your login form HTML code here -->
-
-          <form action="{{route('users.login.submit')}}" method="post">
+            @if (session('error'))
+            <div class="alert alert-info alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+              <strong>{{session('error')}}</strong>
+            </div>
+            @endif
+          <form action="{{route('admin.removeBook')}}" method="post">
             @csrf
+            @method('DELETE')
             <div class="row">
-
-              <!-- Email Address -->
+              <!-- Id number -->
               <div class="input-group col-lg-12 mb-4">
                 <div class="input-group-prepend">
                   <span
                     class="input-group-text bg-white px-4 border-md border-right-0"
                   >
-                    <i class="fa fa-envelope text-muted"></i>
+                    <i class="fa fa-list-ol" aria-hidden="true"></i>
                   </span>
                 </div>
+
                 <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="Email Address"
+                  id="book_id"
+                  type="number"
+                  name="book_id"
+                  placeholder="Id"
+                  class="form-control bg-white border-md border-left-0 pl-3"
                   required
-                  class="form-control bg-white border-left-0 border-md"
                 />
               </div>
-
-              <!-- Password -->
               <div class="input-group col-lg-12 mb-4">
                 <div class="input-group-prepend">
                   <span
                     class="input-group-text bg-white px-4 border-md border-right-0"
                   >
-                    <i class="fa fa-lock text-muted"></i>
+                    <i class="fa fa-list-ol" aria-hidden="true"></i>
                   </span>
                 </div>
+
                 <input
-                  id="password"
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  required
-                  class="form-control bg-white border-left-0 border-md"
+                  id="isbn"
+                  type="number"
+                  name="isbn"
+                  placeholder="ISBN"
+                  class="form-control bg-white border-md border-left-0 pl-3"
                 />
               </div>
+
+
+
 
               <!-- Submit Button -->
               <div class="form-group col-lg-12 mx-auto mb-0">
-                <button type="submit" class="btn btn-primary btn-block py-2">
-                  <span class="font-weight-bold">Login</span>
+                <button class="btn btn-block py-2">
+                  <span class="font-weight-bold">Remove Book</span>
                 </button>
-              </div>
-
-              <!-- No Account -->
-              <div class="text-center w-100">
-                <p class="text-muted font-weight-bold">
-                  Create Account?
-                  <a href="/register" class="text-primary ml-2">SignUp</a>
-                </p>
               </div>
             </div>
           </form>
@@ -198,7 +238,6 @@
         </div>
     </div>
 </footer>
-    
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

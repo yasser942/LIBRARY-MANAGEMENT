@@ -28,7 +28,7 @@
               <a
                 class="navbar-brand"
                 href="/"
-                target="_blank"
+                
                 ><h1><i class="fa fa-book"></i> LMS</h1></a>
 
               <button
@@ -45,7 +45,9 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
-                   
+                   @auth
+                       
+                  
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
                     <a
                       class="nav-link dropdown-toggle"
@@ -57,31 +59,43 @@
                       ><h5>Profile</h5></a
                     >
                     <div class="dropdown-menu">
-                      <a class="dropdown-item"><h5>username</h5></a>
-                      <a class="dropdown-item"><h5>email</h5></a>
+                      <a class="dropdown-item"><h5>{{ auth()->user()->name }}</h5></a>
+                      <a class="dropdown-item"><h5>{{ auth()->user()->email }}</h5></a>
                         <a class="dropdown-item" href="#"><h5>Update Profile</h5></a>
-                      <a class="dropdown-item" href="#"><h5>Logout</h5></a>
+                        <form action="{{ route('users.logout') }}" method="POST">
+                          @csrf
+                          <button type="submit" class="dropdown-item" style="cursor: pointer;">
+                              <h5>Logout</h5>
+                          </button>
+                      </form>
                     </div>
                   </li>
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                       <a class="nav-link" href="/registeredusers"><h5>Members List</h5></a>
+                       <a class="nav-link" href="{{route('admin.registeredusers')}}"><h5>Members List</h5></a>
                    </li>
-                   
+                   @else
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                     <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
                   </li>
-                    
+                  @endauth
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                     <a class="nav-link" href="/books"><h5>Books</h5></a>
                   </li>
+                  @auth
+                  @if ( auth()->user()->role == 'admin')
+                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                   <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
+                </li>
+                  @else
+                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                   <a class="nav-link" href="/user_dashboard"><h5>Dashboard</h5></a>
+                </li>
+                  @endif
+                  @endauth
                   
-                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="/lib_dashboard"><h5>Dashboard</h5></a>
-                     </li>
+                    
                  
-                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="/user_dashboard"><h5>Dashboard</h5></a>
-                     </li>
+                   
                  
 
                 </ul>
@@ -100,7 +114,7 @@
         <div class="row home_img">
             <div class="col-lg-7 col-md-7 col-sm-12">
                 <div class="card" >
-                   <img src="{{ asset('images/bghome.png') }}"" />
+                   <img src="{{ asset('images/bghome.png') }}" />
                 </div>
             </div>
             <div class="col-lg-5 col-md-5 col-sm-12">
@@ -118,7 +132,9 @@
 <!-- search -->
     <div class = "container">
     <div class="col-md-7 col-lg-8 mx-auto">
-        <form action="/" method="post">
+      <form action="{{ route('books.search') }}" method="post">
+
+          @csrf
             <div class="row">
 
             <!-- Book Name-->
@@ -136,6 +152,7 @@
                   name="title"
                   placeholder="Title"
                   class="form-control bg-white border-left-0 border-md"
+                  value="{{ request('title') }}"
                 />
               </div>
 
@@ -155,11 +172,13 @@
                   name="author"
                   placeholder="Author"
                   class="form-control bg-white border-left-0 border-md"
+                  value="{{ request('author') }}"
+
                 />
               </div>
 
                   <!-- Category -->
-              <div class="input-group col-lg-6 mb-4">
+              <div class="input-group col-lg-4 mb-4">
                 <div class="input-group-prepend">
                   <span
                     class="input-group-text bg-white px-4 border-md border-right-0"
@@ -173,11 +192,13 @@
                   name="category"
                   placeholder="Category"
                   class="form-control bg-white border-left-0 border-md"
+                  value="{{ request('category') }}"
+
                 />
               </div>
 
               <!-- Isbn Number -->
-              <div class="input-group col-lg-6 mb-4">
+              <div class="input-group col-lg-4 mb-4">
                 <div class="input-group-prepend">
                   <span
                     class="input-group-text bg-white px-4 border-md border-right-0"
@@ -192,16 +213,62 @@
                   name="isbn"
                   placeholder="ISBN"
                   class="form-control bg-white border-md border-left-0 pl-3"
+                  value="{{ request('isbn') }}"
+
                 />
+                
+               
               </div>
+
+               <!-- Isbn Number -->
+               <div class="input-group col-lg-4 mb-4">
+                <div class="input-group-prepend">
+                  <span
+                    class="input-group-text bg-white px-4 border-md border-right-0"
+                  >
+                    <i class="fa fa-list-ol" aria-hidden="true"></i>
+                  </span>
+                </div>
+
+                <input
+                id="year"
+                type="number"
+                name="year"
+                placeholder="YEAR"
+                class="form-control bg-white border-md border-left-0 pl-3"
+                value="{{ request('year') }}"
+
+              />
+                
+               
+              </div>
+
+              
 
 
               <!-- Submit Button -->
-              <div class="form-group col-lg-8 mx-auto mb-0">
+              <div class="form-group col-lg-6 mx-auto mb-0">
                 <button type="submit" class="btn btn-primary btn-block py-2">
                   <span class="font-weight-bold">Search</span>
                 </button>
               </div>
+
+              <!-- Clear Button -->
+              <div class="form-group col-lg-6 mx-auto mb-0">
+                <button type="button" class="btn btn-secondary btn-block py-2" onclick="clearForm()">
+                    <span class="font-weight-bold">Clear</span>
+                </button>
+              </div>
+
+              <script>
+                function clearForm() {
+                    document.getElementById('title').value = '';
+                    document.getElementById('author').value = '';
+                    document.getElementById('category').value = '';
+                    document.getElementById('isbn').value = '';
+                    document.getElementById('year').value = '';
+                }
+              </script>
             </div>
         </form>
         </div>
@@ -219,6 +286,7 @@
                       <th scope="col">ISBN</th>
                       <th scope="col">Title</th>
                       <th scope="col">Author</th>
+                      <th scope="col">Category</th>
                       <th scope="col">Year Of Publication</th>
                     </tr>
                   </thead>
@@ -229,19 +297,22 @@
                     <td> {{ $book->isbn}} </td>
                     <td> {{ $book->title}}  </td>
                     <td> {{ $book->author}}  </td>
+                    <td> {{ $book->category}}  </td>
                     <td> {{ $book->year}}  </td>
                 </tr>
                   @endforeach
                        
                     </tbody>
+                    
                 </table>
+                
+                
             </div>
       
         </div>
         
     </div>
     </div>
-
 
 
 

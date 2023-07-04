@@ -10,18 +10,48 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    { 
-    
-        $books = Book::all();
-        
+    public function index(Request $request)
+{
 
-        return view('index', compact('books'));
+    $title = $request->input('title');
+    $author = $request->input('author');
+    $category = $request->input('category');
+    $isbn = $request->input('isbn');
+    $year = $request->input('year');
+
+
+    $query = Book::query();
+
+    if ($title) {
+        $query->where('title', 'LIKE', "%$title%");
     }
+
+    if ($author) {
+        $query->where('author', 'LIKE', "%$author%");
+    }
+
+    if ($category) {
+        $query->where('category', 'LIKE', "%$category%");
+    }
+
+    if ($isbn) {
+        $query->where('isbn', $isbn);
+    }
+
+    if ($year) {
+        $query->where('year', 'LIKE', "%$year%");
+    }
+
+    $books = $query->get();
+
+    return view('index', compact('books'));
+}
+
     public function books()
     { 
     
-        $books = Book::all();
+        $books = Book::latest()->get();
+       
         
 
         return view('books.index', compact('books'));
@@ -30,9 +60,9 @@ class BookController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function addBookForm()
     {
-        //
+        return view('users.admin.add_book');
     }
 
     /**
@@ -40,7 +70,24 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'isbn' => 'required|unique:books',
+            'title' => 'required',
+            'author' => 'required',
+            'year' => 'required|integer',
+            'category' => 'required',
+        ]);
+         // Create a new book using the validated data
+    $book = Book::create($validatedData);
+
+    // Redirect to the book's details page
+    return redirect()->route('books.index');
+        
+    }
+
+
+    public function removeBookForm(){
+        return view( 'users.admin.remove_book');
     }
 
     /**
@@ -70,8 +117,28 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Book $book)
+    public function destroy(Request $request)
     {
-        //
+            // Get the input values from the request
+        $isbn = $request->input('isbn');
+        $id = $request->input('book_id');
+
+        // Find the book based on the provided isbn and/or id
+        $book = Book::where('isbn', $isbn)->orWhere('id', $id)->first();
+
+        // Check if the book exists
+        if ($book) {
+            // Delete the book
+            $book->delete();
+            return redirect()->route('books.index')->with('success', 'Book removed successfully');
+        } else {
+            return redirect()->back()->with('error', 'Book not found');
+        }
+    }
+
+    public function booksDetial(){
+        $books=Book::all();
+
+        return view('users.admin.book_show',compact('books'));
     }
 }

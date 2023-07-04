@@ -76,9 +76,23 @@
           />
           <h1>Create an Account</h1>
         </div>
-
+       
         <!-- Registration Form -->
         <div class="col-md-7 col-lg-6 ml-auto">
+          @if($errors->any())
+        
+          <div>
+              <ul>
+                  @foreach ($errors->all() as $error)
+                  <div class="alert alert-info alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+                    <strong>{{ $error }}</strong>
+                  </div>
+  
+                  @endforeach
+              </ul>
+          </div>
+      @endif
            
           <form action="{{route('users.register')}}" method="post">
             @csrf
@@ -99,6 +113,7 @@
                   placeholder="Name"
                   required
                   class="form-control bg-white border-left-0 border-md"
+                  value=""{{old('name')}}
                 />
               </div>
 
@@ -118,6 +133,8 @@
                   placeholder="Address"
                   required
                   class="form-control bg-white border-left-0 border-md"
+                  value=""{{old('address')}}
+
                 />
               </div>
 
@@ -137,8 +154,11 @@
                   placeholder="Email Address"
                   required
                   class="form-control bg-white border-left-0 border-md"
+                  value=""{{old('email')}}
                 />
+                
               </div>
+              
 
               <!-- Password -->
               <div class="input-group col-lg-6 mb-4">
@@ -169,9 +189,9 @@
                   </span>
                 </div>
                 <input
-                  id="cpassword"
-                  type="cpassword"
-                  name="cpassword"
+                  id="password_confirmation"
+                  type="password"
+                  name="password_confirmation"
                   placeholder="Confirm Password"
                   required
                   class="form-control bg-white border-left-0 border-md"

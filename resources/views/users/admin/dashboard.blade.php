@@ -32,7 +32,7 @@
               <a
                 class="navbar-brand"
                 href="/"
-                target="_blank"
+              
                 ><h1><i class="fa fa-book"></i> LMS</h1></a>
 
               <button
@@ -49,6 +49,8 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
+                  @auth
+    
                     
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
                     <a
@@ -60,24 +62,36 @@
                       aria-expanded="false"
                       ><h5>Profile</h5></a
                     >
-                     <div class="dropdown-menu">
-                      <a class="dropdown-item"><h5>username</h5></a>
-                      <a class="dropdown-item"><h5>email</h5></a>
-                         <a class="dropdown-item" href="#"><h5>Update Profile</h5></a>
-                      <a class="dropdown-item" href="#"><h5>Logout</h5></a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item"><h5>{{ auth()->user()->name }}</h5></a>
+                      <a class="dropdown-item"><h5>{{ auth()->user()->email }}</h5></a>
+                        <a class="dropdown-item" href="#"><h5>Update Profile</h5></a>
+                        <form action="{{ route('users.logout') }}" method="POST">
+                          @csrf
+                          <button type="submit" class="dropdown-item" style="cursor: pointer;">
+                              <h5>Logout</h5>
+                          </button>
+                      </form>
                     </div>
                   </li>
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                       <a class="nav-link" href="/registeredusers"><h5>Members List</h5></a>
+                       <a class="nav-link" href="{{route('admin.registeredusers')}}"><h5>Members List</h5></a>
                    </li>
+                   @else
                  
 
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                     <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
                   </li>
-                  
+                  @endauth
+                  @auth
+                      
 
+                  @if ( auth()->user()->role == 'admin')
+                      
                   
+                      
+                 
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                     <a
                       class="nav-link dropdown-toggle"
@@ -89,10 +103,9 @@
                       ><h5>Manage Books/Shelf</h5>
                     </a>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="/add_book"><h5>Add Book</h5></a>
-                      <a class="dropdown-item" href="/remove_book"><h5>Remove Book</h5></a>
-                      <a class="dropdown-item" href="/books"><h5>View Book</h5></a>
-                      <a class="dropdown-item" href="/book_show"><h5>Books Detail</h5></a>
+                      <a class="dropdown-item" href="{{route('admin.add_book')}}"><h5>Add Book</h5></a>
+                      <a class="dropdown-item" href="{{route('admin.remove_book_form')}}"><h5>Remove Book</h5></a>
+                      <a class="dropdown-item" href="{{route('admin.book_show')}}"><h5>Books Detail</h5></a>
                       <a class="dropdown-item" href="/onhold_show"><h5>Onhold Detail</h5></a>
                         <a class="dropdown-item" href="/borrow_show"><h5>Borrow Detail</h5></a>
                         <a class="dropdown-item" href="/shelf"><h5>View Shelf</h5></a>
@@ -103,6 +116,8 @@
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                         <a class="nav-link" href="#"><h5>Manage Fines</h5></a>
                      </li>
+                     @endif
+                     @endauth
                    
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                         <a class="nav-link" href="/books"><h5>Books</h5></a>

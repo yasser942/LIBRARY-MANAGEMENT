@@ -34,7 +34,7 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
+            'password' => 'required|min:8|confirmed',
             'address' => 'required',
         ]);
 
@@ -51,8 +51,15 @@ class UserController extends Controller
         $user->save();
 
         // Redirect to a success page or any other appropriate action
-        return redirect()->route('books.index', $user->id)
+        return redirect()->route('users.login', $user->id)
             ->with('success', 'User created successfully');
+    }
+
+
+    public function showRegisteredUsers (){
+
+        $users = User::where('role', '!=', 'admin')->get();
+        return view('users.admin.registeredusers', ['users' => $users]);
     }
 
     /**
