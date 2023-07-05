@@ -292,16 +292,23 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($books as $book)
-                <tr>
-                    <td><img src="{{ asset('Uploads/cover.jpg') }}" style="height:55px; width:55px" alt=""></td>
-                    <td>{{ $book->isbn}}</td>
-                    <td>{{ $book->title}}</td>
-                    <td>{{ $book->author}}</td>
-                    <td>{{ $book->category}}</td>
-                    <td>{{ $book->year}}</td>
-                </tr>
-                @endforeach
+              @foreach ($books as $book)
+              <tr>
+                  <td>
+                      @if ($book->image)
+                          <img src="{{ Storage::url($book->image) }}" style="height: 55px; width: 55px" alt="">
+                      @else
+                          <img src="{{ asset('Uploads/cover.jpg') }}" style="height: 55px; width: 55px" alt="">
+                      @endif
+                  </td>
+                  <td>{{ $book->isbn }}</td>
+                  <td>{{ $book->title }}</td>
+                  <td>{{ $book->author }}</td>
+                  <td>{{ $book->category }}</td>
+                  <td>{{ $book->year }}</td>
+              </tr>
+          @endforeach
+          
             </tbody>
         </table>
     </div>

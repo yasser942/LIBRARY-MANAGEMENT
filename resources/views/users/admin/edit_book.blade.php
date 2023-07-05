@@ -122,7 +122,7 @@
 
         <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
           <img src="{{ asset('images/i1.png') }}" alt="" class="img-fluid mb-3 d-none d-md-block" />
-          <h1>Adding Book</h1>
+          <h1>Editing Book</h1>
         </div>
 
         <div class="col-md-7 col-lg-6 ml-auto">

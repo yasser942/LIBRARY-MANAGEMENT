@@ -222,7 +222,7 @@
                   name="isbn"
                   placeholder="ISBN"
                   class="form-control bg-white border-md border-left-0 pl-3"
-                  value="{{old('number')}}"
+                  value="{{old('isbn')}}"
                   required
                 />
               </div>
@@ -254,7 +254,7 @@
               <!-- Image -->
               <div class="input-group col-lg-12 mb-4">
 
-              <input  type="file" id="file" name="file" placeholder="Image" >
+              <input  type="file" id="file" name="image" placeholder="Image" >
 
               </div>
               <!-- Submit Button -->

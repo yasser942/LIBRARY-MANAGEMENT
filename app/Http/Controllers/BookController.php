@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -99,15 +100,29 @@ public function books(Request $request)
      */
     public function store(Request $request)
     {
+
+       
+
         $validatedData = $request->validate([
             'isbn' => 'required|unique:books',
             'title' => 'required',
             'author' => 'required',
             'year' => 'required|integer',
             'category' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg'
         ]);
+
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $uploadedFile = $request->file('image');
+            $imagePath = Storage::putFile('public/images', $uploadedFile);
+        }
+
+        $validatedData['image']=$imagePath;
          // Create a new book using the validated data
-    $book = Book::create($validatedData);
+         $book = Book::create($validatedData);
+         dd( $book);
 
     // Redirect to the book's details page
     return redirect()->route('books.index');

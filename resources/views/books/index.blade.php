@@ -283,9 +283,13 @@
              @foreach ($books as $book)
                  @if ($book->category == $category)
                      <div class="card">
-                         <div class="img">
-                             <img src="Uploads\cover.jpg" alt="">
-                         </div>
+                      <div class="img">
+                        @if ($book->image)
+                            <img src="{{ Storage::url($book->image) }}" alt="">
+                        @else
+                            <img src="{{ asset('Uploads/cover.jpg') }}" alt="">
+                        @endif
+                    </div>
                          <div class="content">
                              <div class="title">
                                  {{ $book->title }}
