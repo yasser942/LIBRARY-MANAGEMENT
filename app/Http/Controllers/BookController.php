@@ -122,7 +122,7 @@ public function books(Request $request)
         $validatedData['image']=$imagePath;
          // Create a new book using the validated data
          $book = Book::create($validatedData);
-         dd( $book);
+        
 
     // Redirect to the book's details page
     return redirect()->route('books.index');
@@ -157,6 +157,27 @@ public function books(Request $request)
             'year' => 'required|integer',
             'category' => 'required',
         ]);
+
+        $validatedData = $request->validate([
+            'isbn' => 'required|unique:books,isbn,' . $book->id,
+            'title' => 'required',
+            'author' => 'required',
+            'year' => 'required|integer',
+            'category' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg'
+        ]);
+
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $uploadedFile = $request->file('image');
+            $imagePath = Storage::putFile('public/images', $uploadedFile);
+            $validatedData['image'] = $imagePath;
+        } else {
+            $validatedData['image'] = $book->image;
+        }
+
+       
 
          // Update the book with the validated data
          $book->update($validatedData);

@@ -256,7 +256,7 @@
               <!-- Image -->
               <div class="input-group col-lg-12 mb-4">
 
-              <input  type="file" id="file" name="file" placeholder="Image" >
+              <input  type="file" id="file" name="image" placeholder="Image" value="{{$book->author}}" >
 
               </div>
               <!-- Submit Button -->
