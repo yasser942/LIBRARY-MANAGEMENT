@@ -591,9 +591,14 @@ footer .form-control {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.2s;
+  margin-right: 10px;
 }
 .card .content .btn button:hover{
   transform: scale(0.9);
 }
 
+.scrollable-table {
+  height: 600px; /* Adjust the height as per your requirement */
+  overflow-y: scroll;
+}
 

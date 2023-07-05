@@ -105,6 +105,9 @@
                      </li>
                        @endif
                    @endauth
+                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                    <a class="nav-link" href="/"><h5>Home</h5></a>
+                  </li>
 
                    
                    
@@ -128,98 +131,206 @@
     </div>
    @endif
    
-    <h1>History</h1>
-    <div class="container-fluid" id="s">
-     <div class="slider owl-carousel">
-         @foreach ($books as $book)
-           @if ($book->category=='history')
-           <div class="card">
-             <div class="img">
-             <img src="Uploads\cover.jpg" alt=""></div>
-             <div class="content">
-             <div class="title">
-             {{$book->title}}</div>
-             <div class="sub-title">
-             By:  {{$book->author}}</div>
-             <p>Publication Year:  {{$book->year}}</p>
-                
-             <div class="btn">
-                 <a href="#"><button>On Hold</button></a>
-             
-                 <a href="#"><button>Borrow</button></a>
-            
-             </div>
-                
-             </div>
-             </div>
-           @endif
-         @endforeach
-     </div>
-    </div>
- 
-     <hr class="dotted">
-    
-    <h1>Novels</h1>
-   <div class="container-fluid" id="s">
-    <div class="slider owl-carousel">
-        @foreach ($books as $book)
-          @if ($book->category=='novels')
-          <div class="card">
-            <div class="img">
-            <img src="Uploads\cover.jpg" alt=""></div>
-            <div class="content">
-            <div class="title">
-            {{$book->title}}</div>
-            <div class="sub-title">
-            By:  {{$book->author}}</div>
-            <p>Publication Year:  {{$book->year}}</p>
-               
-            <div class="btn">
-                <a href="#"><button>On Hold</button></a>
-            
-                <a href="#"><button>Borrow</button></a>
-           
-            </div>
-               
-            </div>
-            </div>
-          @endif
-        @endforeach
-    </div>
-   </div>
+ <!-- search -->
+ <div class = "container my-4">
+  <div class="col-md-7 col-lg-8 mx-auto">
+    <form action="{{route('bookss.search')}}" method="post">
 
-    <hr class="dotted">
-   
-    <h1>Sport</h1>
-    <div class="container-fluid" id="s">
-     <div class="slider owl-carousel">
-         @foreach ($books as $book)
-           @if ($book->category=='sport')
-           <div class="card">
-             <div class="img">
-             <img src="Uploads\cover.jpg" alt=""></div>
-             <div class="content">
-             <div class="title">
-             {{$book->title}}</div>
-             <div class="sub-title">
-             By:  {{$book->author}}</div>
-             <p>Publication Year:  {{$book->year}}</p>
-                
-             <div class="btn">
-                 <a href="#"><button>On Hold</button></a>
+        @csrf
+          <div class="row">
+
+          <!-- Book Name-->
+              <div class="input-group col-lg-12 mb-4">
+              <div class="input-group-prepend">
+                <span
+                  class="input-group-text bg-white px-4 border-md border-right-0"
+                >
+                  <i class="fa fa-address-book" aria-hidden="true"></i>
+                </span>
+              </div>
+              <input
+                id="title"
+                type="text"
+                name="title"
+                placeholder="Title"
+                class="form-control bg-white border-left-0 border-md"
+                value="{{ request('title') }}"
+              />
+            </div>
+
+              <!-- Author -->
+
+            <div class="input-group col-lg-12 mb-4">
+              <div class="input-group-prepend">
+                <span
+                  class="input-group-text bg-white px-4 border-md border-right-0"
+                >
+                  <i class="fa fa-address-book" aria-hidden="true"></i>
+                </span>
+              </div>
+              <input
+                id="author"
+                type="text"
+                name="author"
+                placeholder="Author"
+                class="form-control bg-white border-left-0 border-md"
+                value="{{ request('author') }}"
+
+              />
+            </div>
+
+                <!-- Category -->
+            <div class="input-group col-lg-4 mb-4">
+              <div class="input-group-prepend">
+                <span
+                  class="input-group-text bg-white px-4 border-md border-right-0"
+                >
+                  <i class="fa fa-address-book" aria-hidden="true"></i>
+                </span>
+              </div>
+              <input
+                id="category"
+                type="text"
+                name="category"
+                placeholder="Category"
+                class="form-control bg-white border-left-0 border-md"
+                value="{{ request('category') }}"
+
+              />
+            </div>
+
+            <!-- Isbn Number -->
+            <div class="input-group col-lg-4 mb-4">
+              <div class="input-group-prepend">
+                <span
+                  class="input-group-text bg-white px-4 border-md border-right-0"
+                >
+                  <i class="fa fa-list-ol" aria-hidden="true"></i>
+                </span>
+              </div>
+
+              <input
+                id="isbn"
+                type="number"
+                name="isbn"
+                placeholder="ISBN"
+                class="form-control bg-white border-md border-left-0 pl-3"
+                value="{{ request('isbn') }}"
+
+              />
+              
              
-                 <a href="#"><button>Borrow</button></a>
+            </div>
+
+             <!-- Isbn Number -->
+             <div class="input-group col-lg-4 mb-4">
+              <div class="input-group-prepend">
+                <span
+                  class="input-group-text bg-white px-4 border-md border-right-0"
+                >
+                  <i class="fa fa-list-ol" aria-hidden="true"></i>
+                </span>
+              </div>
+
+              <input
+              id="year"
+              type="number"
+              name="year"
+              placeholder="YEAR"
+              class="form-control bg-white border-md border-left-0 pl-3"
+              value="{{ request('year') }}"
+
+            />
+              
+             
+            </div>
+
             
-             </div>
-                
-             </div>
-             </div>
-           @endif
-         @endforeach
-     </div>
-    </div>
+
+
+            <!-- Submit Button -->
+            <div class="form-group col-lg-6 mx-auto mb-0">
+              <button type="submit" class="btn btn-primary btn-block py-2">
+                <span class="font-weight-bold">Search</span>
+              </button>
+            </div>
+
+            <!-- Clear Button -->
+            <div class="form-group col-lg-6 mx-auto mb-0">
+              <button type="button" class="btn btn-secondary btn-block py-2" onclick="clearForm()">
+                  <span class="font-weight-bold">Clear</span>
+              </button>
+            </div>
+
+            <script>
+              function clearForm() {
+                  document.getElementById('title').value = '';
+                  document.getElementById('author').value = '';
+                  document.getElementById('category').value = '';
+                  document.getElementById('isbn').value = '';
+                  document.getElementById('year').value = '';
+              }
+            </script>
+          </div>
+      </form>
+      </div>
+   </div>
+    
+     @foreach ($categories as $category)
+     <h1>{{ ucfirst($category) }} </h1>
+     <div class="container-fluid" id="s">
+         <div class="slider owl-carousel">
+             @foreach ($books as $book)
+                 @if ($book->category == $category)
+                     <div class="card">
+                         <div class="img">
+                             <img src="Uploads\cover.jpg" alt="">
+                         </div>
+                         <div class="content">
+                             <div class="title">
+                                 {{ $book->title }}
+                             </div>
+                             <div class="sub-title">
+                                 By: {{ $book->author }}
+                             </div>
+                             <p>Publication Year: {{ $book->year }}</p>
  
+                             @auth
+
+                             @if (auth()->user()->role == 'admin')
+                             <div class="btn">
+                              <div class="btn-group">
+                                  <a href="{{route('admin.edit_book_form',$book->id)}}" class="btn-edit"><button>Edit</button></a>
+                                  <form action="{{route('admin.removeBook',$book->id)}}" method="post" >
+                                    @csrf
+                                    @method('DELETE')
+                                      <a ><button type="submit">Delete</button></a>
+
+                                  </form>
+                              </div>
+                          </div>
+                          
+                             @else
+                             <div class="btn">
+                              <a href="#"><button>On Hold</button></a>
+                              <a href="#"><button>Borrow</button></a>
+                          </div>
+                             @endif
+                               
+                             @endauth
+ 
+                         </div>
+                     </div>
+                 @endif
+             @endforeach
+         </div>
+     </div>
      <hr class="dotted">
+ @endforeach
+   
+    
+ 
+    
   <!--footer-->
   <footer class="footer" id="footer">
     <div class="container">

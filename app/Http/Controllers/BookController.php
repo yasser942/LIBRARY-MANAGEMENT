@@ -47,15 +47,44 @@ class BookController extends Controller
     return view('index', compact('books'));
 }
 
-    public function books()
-    { 
-    
-        $books = Book::latest()->get();
-       
-        
+public function books(Request $request)
+{
+    $categories = Book::distinct('category')->pluck('category');
+    $title = $request->input('title');
+    $author = $request->input('author');
+    $category = $request->input('category');
+    $isbn = $request->input('isbn');
+    $year = $request->input('year');
 
-        return view('books.index', compact('books'));
+
+    $query = Book::query();
+
+    if ($title) {
+        $query->where('title', 'LIKE', "%$title%");
     }
+
+    if ($author) {
+        $query->where('author', 'LIKE', "%$author%");
+    }
+
+    if ($category) {
+        $query->where('category', 'LIKE', "%$category%");
+    }
+
+    if ($isbn) {
+        $query->where('isbn', $isbn);
+    }
+
+    if ($year) {
+        $query->where('year', 'LIKE', "%$year%");
+    }
+
+    $books = $query->latest()->get();
+
+    
+    return view('books.index', compact('categories', 'books'));
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -98,20 +127,25 @@ class BookController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Book $book)
-    {
-        //
-    }
+    
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Book $book)
+    public function editBook(Request $request, Book $book)
     {
-        //
+        
+        $validatedData = $request->validate([
+            'isbn' => 'required|unique:books,isbn,' . $book->id,
+            'title' => 'required',
+            'author' => 'required',
+            'year' => 'required|integer',
+            'category' => 'required',
+        ]);
+
+         // Update the book with the validated data
+         $book->update($validatedData);
+         return redirect()->route('books.index', $book->id)->with('success', 'Book updated successfully');
     }
 
     /**
@@ -136,9 +170,20 @@ class BookController extends Controller
         }
     }
 
+    public function deleteById(Request $request, Book $book){
+         // Delete the book from the database
+            $book->delete();
+            return redirect()->route('books.index')->with('success', 'Book removed successfully');
+
+    }
+
     public function booksDetial(){
         $books=Book::all();
 
         return view('users.admin.book_show',compact('books'));
+    }
+
+    public function editBookForm(Book $book){
+        return view( 'users.admin.edit_book', compact('book'));
     }
 }

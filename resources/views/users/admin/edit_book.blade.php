@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <title>LMS</title>
@@ -17,7 +18,9 @@
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/add_book.css') }}" />
 
+    
   </head>
   <body>
     <div class="navigation-wrap bg-light start-header start-style">
@@ -28,7 +31,7 @@
               <a
                 class="navbar-brand"
                 href="/"
-                
+               
                 ><h1><i class="fa fa-book"></i> LMS</h1></a>
 
               <button
@@ -45,9 +48,7 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
-                   @auth
-                       
-                  
+                  @auth
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
                     <a
                       class="nav-link dropdown-toggle"
@@ -58,45 +59,50 @@
                       aria-expanded="false"
                       ><h5>Profile</h5></a
                     >
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item"><h5>{{ auth()->user()->name }}</h5></a>
-                      <a class="dropdown-item"><h5>{{ auth()->user()->email }}</h5></a>
-                        <a class="dropdown-item" href="#"><h5>Update Profile</h5></a>
-                        <form action="{{ route('users.logout') }}" method="POST">
+                     <div class="dropdown-menu">
+                      <a class="dropdown-item"><h5>{{auth()->user()->name}}</h5></a>
+                      <a class="dropdown-item"><h5>{{auth()->user()->email}}</h5></a>
+                         <a class="dropdown-item" href="#"><h5>Update Profile</h5></a>
+                         <form action="{{ route('users.logout') }}" method="POST">
                           @csrf
                           <button type="submit" class="dropdown-item" style="cursor: pointer;">
                               <h5>Logout</h5>
                           </button>
                       </form>
                     </div>
-                  </li>
-                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                       <a class="nav-link" href="{{route('admin.registeredusers')}}"><h5>Members List</h5></a>
-                   </li>
-                   @else
+                  </li> 
+
+
+                  @else
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                     <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
                   </li>
                   @endauth
-                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                    <a class="nav-link" href="/books"><h5>Books Categories</h5></a>
-                  </li>
+                     
+
                   @auth
-                  @if ( auth()->user()->role == 'admin')
+
+                  @if (auth()->user()->role=='admin')
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                   <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
-                </li>
+                    <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
+                 </li>
+                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                    <a class="nav-link" href="{{route('books.index')}}"><h5>Books</h5></a>
+                  </li>
                   @else
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                   <a class="nav-link" href="/user_dashboard"><h5>Dashboard</h5></a>
-                </li>
+                    <a class="nav-link" href="{{route('books.index')}}"><h5>Books</h5></a>
+                 </li>
                   @endif
-                  @endauth
                   
+
+               
+                
+                  @endauth
+
+                  
+                     
                     
-                 
-                   
-                 
 
                 </ul>
               </div>
@@ -110,35 +116,40 @@
     <br>
     <br>
     <br>
+
     <div class="container">
-        <div class="row home_img">
-            <div class="col-lg-7 col-md-7 col-sm-12">
-                <div class="card" >
-                   <img src="{{ asset('images/bghome.png') }}" />
-                </div>
-            </div>
-            <div class="col-lg-5 col-md-5 col-sm-12">
-                <div class="card txt" >
-                    <h1>WELCOME  TO  OUR  LIBRARY</h1>
-                    <h2>******</h2>
-                </div>
-            </div>
+      <div class="row py-5 mt-4 align-items-center">
+
+        <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
+          <img src="{{ asset('images/i1.png') }}" alt="" class="img-fluid mb-3 d-none d-md-block" />
+          <h1>Adding Book</h1>
         </div>
-    </div>
-    <br>
-    <br>
-    <br>
 
-<!-- search -->
-    <div class = "container">
-    <div class="col-md-7 col-lg-8 mx-auto">
-      <form action="{{ route('books.search') }}" method="post">
+        <div class="col-md-7 col-lg-6 ml-auto">
+          
+              
+          @if($errors->any())
+        
+          <div>
+              <ul>
+                  @foreach ($errors->all() as $error)
+                  <div class="alert alert-info alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+                    <strong>{{ $error }}</strong>
+                  </div>
+  
+                  @endforeach
+              </ul>
+          </div>
+      @endif
+          <form action="{{route('books.edit',$book->id)}}" method="post" enctype="multipart/form-data">
+            @csrf
 
-          @csrf
+            @method('PUT')
             <div class="row">
 
-            <!-- Book Name-->
-                <div class="input-group col-lg-12 mb-4">
+              <!-- Title -->
+              <div class="input-group col-lg-6 mb-4">
                 <div class="input-group-prepend">
                   <span
                     class="input-group-text bg-white px-4 border-md border-right-0"
@@ -152,13 +163,13 @@
                   name="title"
                   placeholder="Title"
                   class="form-control bg-white border-left-0 border-md"
-                  value="{{ request('title') }}"
+                  value="{{$book->title}}"
+                  required
                 />
               </div>
 
-                <!-- Author -->
-
-              <div class="input-group col-lg-12 mb-4">
+              <!-- Author -->
+              <div class="input-group col-lg-6 mb-4">
                 <div class="input-group-prepend">
                   <span
                     class="input-group-text bg-white px-4 border-md border-right-0"
@@ -172,13 +183,13 @@
                   name="author"
                   placeholder="Author"
                   class="form-control bg-white border-left-0 border-md"
-                  value="{{ request('author') }}"
-
+                  value="{{$book->author}}"
+                  required
                 />
               </div>
 
-                  <!-- Category -->
-              <div class="input-group col-lg-4 mb-4">
+              <!-- Category -->
+              <div class="input-group col-lg-12 mb-4">
                 <div class="input-group-prepend">
                   <span
                     class="input-group-text bg-white px-4 border-md border-right-0"
@@ -192,13 +203,13 @@
                   name="category"
                   placeholder="Category"
                   class="form-control bg-white border-left-0 border-md"
-                  value="{{ request('category') }}"
-
+                  value="{{$book->category}}"
+                  required
                 />
               </div>
 
               <!-- Isbn Number -->
-              <div class="input-group col-lg-4 mb-4">
+              <div class="input-group col-lg-12 mb-4">
                 <div class="input-group-prepend">
                   <span
                     class="input-group-text bg-white px-4 border-md border-right-0"
@@ -213,108 +224,52 @@
                   name="isbn"
                   placeholder="ISBN"
                   class="form-control bg-white border-md border-left-0 pl-3"
-                  value="{{ request('isbn') }}"
-
+                  value="{{$book->isbn}}"
+                  required
                 />
-                
-               
               </div>
 
-               <!-- Isbn Number -->
-               <div class="input-group col-lg-4 mb-4">
+              <!-- Year -->
+              <div class="input-group col-lg-12 mb-4">
                 <div class="input-group-prepend">
                   <span
                     class="input-group-text bg-white px-4 border-md border-right-0"
                   >
-                    <i class="fa fa-list-ol" aria-hidden="true"></i>
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
                   </span>
                 </div>
 
                 <input
-                id="year"
-                type="number"
-                name="year"
-                placeholder="YEAR"
-                class="form-control bg-white border-md border-left-0 pl-3"
-                value="{{ request('year') }}"
-
-              />
-                
-               
+                  id="year"
+                  type="number"
+                  name="year"
+                  placeholder="Publication Year"
+                  class="form-control bg-white border-md border-left-0 pl-3"
+                  value="{{$book->year}}"
+                  required
+                />
               </div>
 
-              
 
 
+
+              <!-- Image -->
+              <div class="input-group col-lg-12 mb-4">
+
+              <input  type="file" id="file" name="file" placeholder="Image" >
+
+              </div>
               <!-- Submit Button -->
-              <div class="form-group col-lg-6 mx-auto mb-0">
-                <button type="submit" class="btn btn-primary btn-block py-2">
-                  <span class="font-weight-bold">Search</span>
+              <div class="form-group col-lg-12 mx-auto mb-0">
+                <button class="btn btn-block py-2">
+                  <span class="font-weight-bold">Update Book</span>
                 </button>
               </div>
-
-              <!-- Clear Button -->
-              <div class="form-group col-lg-6 mx-auto mb-0">
-                <button type="button" class="btn btn-secondary btn-block py-2" onclick="clearForm()">
-                    <span class="font-weight-bold">Clear</span>
-                </button>
-              </div>
-
-              <script>
-                function clearForm() {
-                    document.getElementById('title').value = '';
-                    document.getElementById('author').value = '';
-                    document.getElementById('category').value = '';
-                    document.getElementById('isbn').value = '';
-                    document.getElementById('year').value = '';
-                }
-              </script>
             </div>
-        </form>
+          </form>
         </div>
-     </div>
-<br>
-<br>
-
-    <div class = "container" >
-   
-       <div class="table-responsive">
-    <div class="scrollable-table">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Image</th>
-                    <th scope="col">ISBN</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Year Of Publication</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($books as $book)
-                <tr>
-                    <td><img src="{{ asset('Uploads/cover.jpg') }}" style="height:55px; width:55px" alt=""></td>
-                    <td>{{ $book->isbn}}</td>
-                    <td>{{ $book->title}}</td>
-                    <td>{{ $book->author}}</td>
-                    <td>{{ $book->category}}</td>
-                    <td>{{ $book->year}}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+      </div>
     </div>
-</div>
-
-      
-       
-    </div>
-
-
-
-
-
     <!--footer-->
     <footer class="footer" id="footer">
     <div class="container">
@@ -322,7 +277,6 @@
             <div class="col-md-5">
                 <h3><i class="fa fa-book"></i> LMS</h3>
                 <br>
-
                 <ul class="nav">
                     <li class="nav-item"><a href="" class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
                     <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-twitter fa-lg"></i></a></li>
@@ -351,10 +305,23 @@
         </div>
     </div>
 </footer>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-</body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>

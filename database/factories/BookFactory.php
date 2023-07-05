@@ -16,7 +16,7 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
-        $categories = ['sport', 'history', 'novels'];
+        $categories = ['sport', 'history', 'novels' ,'science'];
         return [
             'isbn' => $this->faker->isbn13,
             'title' => $this->faker->sentence,

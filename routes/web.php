@@ -16,8 +16,11 @@ use App\Http\Controllers\UserController;
 */
 
 
-Route::get('/', [BookController::class, 'index'])->name('index');
+
+
+Route::post('/books', [BookController::class, 'books'])->name('bookss.search');
 Route::get('/books', [BookController::class, 'books'])->name('books.index');
+Route::get('/', [BookController::class, 'index'])->name('index');
 Route::post('/', [BookController::class, 'index'])->name('books.search');
 
 
@@ -34,11 +37,15 @@ Route::group(['middleware' => 'admin'], function () {
 
   Route::get('/admin/dashboard', [UserController::class, 'adminDashboard'])->name('admin.dashboard');
   Route::get('/admin/add_book', [BookController::class, 'addBookForm'])->name('admin.add_book');
-  Route::post('/books', [BookController::class, 'store'])->name('admin.storeBook');
+  Route::post('/books/store', [BookController::class, 'store'])->name('admin.storeBook');
   Route::get('/admin/remove_book', [BookController::class, 'removeBookForm'])->name('admin.remove_book_form');
   Route::delete('/books', [BookController::class, 'destroy'])->name('admin.removeBook');
+  Route::delete('/books/{book}', [BookController::class, 'deleteById'])->name('admin.removeBook');
+  Route::get('/admin/edit_book/{book}', [BookController::class, 'editBookForm'])->name('admin.edit_book_form');
+  Route::put('/books/{book}', [BookController::class, 'editBook'])->name('books.edit');
   Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
   Route::get('/admin/book_show', [BookController::class, 'booksDetial'])->name('admin.book_show');
+
 });
 
 

@@ -60,10 +60,15 @@
                     ><h5>Profile</h5></a
                   >
                    <div class="dropdown-menu">
-                    <a class="dropdown-item"><h5>username</h5></a>
-                    <a class="dropdown-item"><h5>email</h5></a>
+                    <a class="dropdown-item"><h5>{{auth()->user()->name}}</h5></a>
+                    <a class="dropdown-item"><h5>{{auth()->user()->email}}</h5></a>
                        <a class="dropdown-item" href="#"><h5>Update Profile</h5></a>
-                    <a class="dropdown-item" href="#"><h5>Logout</h5></a>
+                       <form action="{{ route('users.logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="dropdown-item" style="cursor: pointer;">
+                            <h5>Logout</h5>
+                        </button>
+                    </form>
                   </div>
                 </li>
                             

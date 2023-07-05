@@ -124,7 +124,7 @@ class UserController extends Controller
     {
         Auth::logout();
 
-        return redirect('/books');
+        return redirect('/');
     }
 
     public function adminDashboard(){
