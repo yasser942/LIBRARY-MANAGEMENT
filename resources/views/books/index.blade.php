@@ -69,9 +69,8 @@
                       <a class="dropdown-item" href="#">
                           <h5>{{ auth()->user()->email }}</h5>
                       </a>
-                      <a class="dropdown-item" href="#">
-                          <h5>Update Profile</h5>
-                      </a>
+                      <a class="dropdown-item" href="{{ route('users.edit', auth()->user()->id) }}"><h5>Update Profile</h5></a>
+
                       <form action="{{ route('users.logout') }}" method="POST">
                           @csrf
                           <button type="submit" class="dropdown-item" style="cursor: pointer;">
