@@ -65,7 +65,7 @@
                     <div class="dropdown-menu">
                       <a class="dropdown-item"><h5>{{ auth()->user()->name }}</h5></a>
                       <a class="dropdown-item"><h5>{{ auth()->user()->email }}</h5></a>
-                        <a class="dropdown-item" href="#"><h5>Update Profile</h5></a>
+                      <a class="dropdown-item" href="{{ route('users.edit', auth()->user()->id) }}"><h5>Update Profile</h5></a>
                         <form action="{{ route('users.logout') }}" method="POST">
                           @csrf
                           <button type="submit" class="dropdown-item" style="cursor: pointer;">
@@ -104,7 +104,7 @@
                     </a>
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="{{route('admin.add_book')}}"><h5>Add Book</h5></a>
-                      <a class="dropdown-item" href="{{route('admin.remove_book_form')}}"><h5>Remove Book</h5></a>
+                      <a class="dropdown-item" href="{{route('admin.remove_book_form')}}"><h5>Edit Book</h5></a>
                       <a class="dropdown-item" href="{{route('admin.book_show')}}"><h5>Books Detail</h5></a>
                       <a class="dropdown-item" href="/onhold_show"><h5>Onhold Detail</h5></a>
                         <a class="dropdown-item" href="/borrow_show"><h5>Borrow Detail</h5></a>

@@ -25,12 +25,16 @@ Route::post('/', [BookController::class, 'index'])->name('books.search');
 
 
 
+Route::get('/edit/{user}', [UserController::class, 'edit'])->name('users.edit');
+Route::put('/edit/{user}', [UserController::class, 'update'])->name('users.update');
 
 Route::get('/register', [UserController::class, 'create'])->name('users.registerform');
 Route::post('/register', [UserController::class, 'store'])->name('users.register');
 Route::get('/login', [UserController::class, 'loginform'])->name('users.login');
 Route::post('/login', [UserController::class, 'login'])->name('users.login.submit');
 Route::post('/logout', [UserController::class, 'logout'])->name('users.logout');
+
+
 
 Route::group(['middleware' => 'admin'], function () {
     

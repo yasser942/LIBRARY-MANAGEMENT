@@ -48,6 +48,8 @@
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
                    
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
+
+                    @auth
                     <a
                       class="nav-link dropdown-toggle"
                       data-toggle="dropdown"
@@ -58,27 +60,40 @@
                       ><h5>Profile</h5></a
                     >
                      <div class="dropdown-menu">
-                      <a class="dropdown-item"><h5>username</h5></a>
-                      <a class="dropdown-item"><h5>email</h5></a>
+                      <a class="dropdown-item"><h5>{{auth()->user()->name}}</h5></a>
+                      <a class="dropdown-item"><h5>{{auth()->user()->email}}</h5></a>
                          <a class="dropdown-item" href="#"><h5>Update Profile</h5></a>
-                      <a class="dropdown-item" href="#"><h5>Logout</h5></a>
+                         <form action="{{ route('users.logout') }}" method="POST">
+                          @csrf
+                          <button type="submit" class="dropdown-item" style="cursor: pointer;">
+                              <h5>Logout</h5>
+                          </button>
+                      </form>
                     </div>
                   </li>
-                 
-                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                    <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
+                        @else
+
+                        <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                          <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
+                        </li>
+                    @endauth
+                    
+                    @auth
+                    @if (auth()->user()->role == 'admin')
+                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                     <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
                   </li>
                  
-                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="/lib_dashboard"><h5>Dashboard</h5></a>
-                     </li>
-                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                    <a class="nav-link" href="/books"><h5>Books</h5></a>
                 
-                    </li>
+                
+                    @else
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                    <a class="nav-link" href="/books"><h5>Books</h5></a>
-                    </li>
+                     <a class="nav-link" href="/user_dashboard"><h5>Dashboard</h5></a>
+                  </li>
+                    @endif
+                    @endauth
+                 
+                    
                  
 
                 </ul>
