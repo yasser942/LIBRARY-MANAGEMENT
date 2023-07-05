@@ -110,7 +110,7 @@
     <br>
 
     <div class = "container" >
-         <div class="table-responsive">
+         <div class="table-responsive scrollable-table">
                 <table class="table table-hover">
                  
                     <thead>
@@ -125,6 +125,7 @@
                       <th scope="col">Borrow Count</th>
                       <th scope="col">Category</th>
                       <th scope="col">Book Shelf Status</th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -144,7 +145,17 @@
                   <td> 0 </td>
                   <td> {{ $book->category}} </td>
                   <td> on shelf</td>
-                 
+                  <td>
+                    <div class="d-flex">
+                      <a href="{{route('admin.edit_book_form',$book->id)}}" class="btn btn-primary mr-2">Edit</a>
+                      <form action="{{route('admin.removeBook',$book->id)}}" method="POST">
+                          @csrf
+                          @method('DELETE')
+                          <input type="hidden" name="redirect_url" value="{{ url()->current() }}">
+                          <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                  </div>
+                </td>
                   </tr>
                   @endforeach
 

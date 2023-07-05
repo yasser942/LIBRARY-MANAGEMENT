@@ -150,14 +150,7 @@ public function books(Request $request)
     public function editBook(Request $request, Book $book)
     {
         
-        $validatedData = $request->validate([
-            'isbn' => 'required|unique:books,isbn,' . $book->id,
-            'title' => 'required',
-            'author' => 'required',
-            'year' => 'required|integer',
-            'category' => 'required',
-        ]);
-
+        
         $validatedData = $request->validate([
             'isbn' => 'required|unique:books,isbn,' . $book->id,
             'title' => 'required',
@@ -178,10 +171,14 @@ public function books(Request $request)
         }
 
        
-
+        $redirectUrl = $request->input('redirect_url');
+       
          // Update the book with the validated data
          $book->update($validatedData);
-         return redirect()->route('books.index', $book->id)->with('success', 'Book updated successfully');
+         return redirect($redirectUrl)->to($redirectUrl)->with('success', 'Book updated successfully');
+
+
+
     }
 
     /**
@@ -195,12 +192,16 @@ public function books(Request $request)
 
         // Find the book based on the provided isbn and/or id
         $book = Book::where('isbn', $isbn)->orWhere('id', $id)->first();
+        // Get the redirect URL from the request
+        $redirectUrl = $request->input('redirect_url');
+
+        
 
         // Check if the book exists
         if ($book) {
             // Delete the book
             $book->delete();
-            return redirect()->route('books.index')->with('success', 'Book removed successfully');
+            return redirect()->to($redirectUrl)->with('success', 'Book removed successfully');
         } else {
             return redirect()->back()->with('error', 'Book not found');
         }
@@ -209,7 +210,8 @@ public function books(Request $request)
     public function deleteById(Request $request, Book $book){
          // Delete the book from the database
             $book->delete();
-            return redirect()->route('books.index')->with('success', 'Book removed successfully');
+            $redirectUrl = $request->input('redirect_url');
+            return redirect()->to($redirectUrl)->with('success', 'Book removed successfully');
 
     }
 

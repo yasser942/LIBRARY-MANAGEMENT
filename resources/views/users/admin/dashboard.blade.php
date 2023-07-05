@@ -104,7 +104,6 @@
                     </a>
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="{{route('admin.add_book')}}"><h5>Add Book</h5></a>
-                      <a class="dropdown-item" href="{{route('admin.remove_book_form')}}"><h5>Edit Book</h5></a>
                       <a class="dropdown-item" href="{{route('admin.book_show')}}"><h5>Books Detail</h5></a>
                       <a class="dropdown-item" href="/onhold_show"><h5>Onhold Detail</h5></a>
                         <a class="dropdown-item" href="/borrow_show"><h5>Borrow Detail</h5></a>

@@ -303,10 +303,11 @@
                              @if (auth()->user()->role == 'admin')
                              <div class="btn">
                               <div class="btn-group">
-                                  <a href="{{route('admin.edit_book_form',$book->id)}}" class="btn-edit"><button>Edit</button></a>
+                                  <a href="{{route('admin.edit_book_form',['book' => $book->id, 'redirect_url' => url()->current()])}}" class="btn-edit"><button>Edit</button></a>
                                   <form action="{{route('admin.removeBook',$book->id)}}" method="post" >
                                     @csrf
                                     @method('DELETE')
+                                    <input type="hidden" name="redirect_url" value="{{ url()->current() }}">
                                       <a ><button type="submit">Delete</button></a>
 
                                   </form>

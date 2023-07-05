@@ -130,7 +130,7 @@ class UserController extends Controller
         // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
             // Authentication successful
-            return redirect('/books');
+            return redirect('/');
         }
 
         // Authentication failed

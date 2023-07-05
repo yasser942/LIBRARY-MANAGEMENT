@@ -508,7 +508,7 @@ select.form-control {
     }
 }
 footer {
-  margin-top:30%;
+  margin-top:10%;
   background-color: #292c2f;
   color: #bbb;
 }
@@ -601,4 +601,15 @@ footer .form-control {
   height: 600px; /* Adjust the height as per your requirement */
   overflow-y: scroll;
 }
+
+
+.table thead th {
+  position: sticky;
+  
+  top: 0;
+  background-color: #8167a9; /* Specify your desired background color */
+  color: #fff; /* Set the text color to white */
+  z-index: 1;
+}
+
 

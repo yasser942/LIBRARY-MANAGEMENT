@@ -104,6 +104,7 @@
             @csrf
             @method('PUT')
             <div class="row">
+             
               <!-- Name -->
               <div class="input-group col-lg-6 mb-4">
                 <div class="input-group-prepend">
@@ -214,6 +215,7 @@
 
              
             </div>
+            <input type="hidden" name="redirect_url" value="{{ $redirectUrl }}">
           </form>
         </div>
       </div>

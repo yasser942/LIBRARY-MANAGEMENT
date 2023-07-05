@@ -283,12 +283,18 @@
         <table class="table table-hover">
             <thead>
                 <tr>
+
                     <th scope="col">Image</th>
                     <th scope="col">ISBN</th>
                     <th scope="col">Title</th>
                     <th scope="col">Author</th>
                     <th scope="col">Category</th>
                     <th scope="col">Year Of Publication</th>
+                   @auth
+                    @if (auth()->user()->role == 'admin')
+                    <th scope="col">Actions</th>
+                    @endif
+                   @endauth
                 </tr>
             </thead>
             <tbody>
@@ -306,6 +312,24 @@
                   <td>{{ $book->author }}</td>
                   <td>{{ $book->category }}</td>
                   <td>{{ $book->year }}</td>
+                 @auth
+                 @if (auth()->user()->role == 'admin')
+                 <td>
+                   <div class="d-flex">
+                     <a href="{{route('admin.edit_book_form',['book' => $book->id, 'redirect_url' => url()->current()])}}" class="btn btn-primary mr-2">Edit</a>
+                     <form action="{{route('admin.removeBook',$book->id)}}" method="POST">
+                         @csrf
+                         @method('DELETE')
+                         <input type="hidden" name="redirect_url" value="{{ url()->current() }}">
+                         <button type="submit" class="btn btn-danger">Delete</button>
+                     </form>
+                 </div>
+               </td>
+                     
+           
+                     
+                 @endif
+                 @endauth
               </tr>
           @endforeach
           
