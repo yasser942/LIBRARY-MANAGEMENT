@@ -177,6 +177,15 @@ class UserController extends Controller
             return view('users.follower_following', compact('followers', 'following'));
         }
 
+    public function showBorrowedBooks(User $user)
+    {
+        $borrowedBooks = $user->borrows()->with('book')->get();
+
+
+        return view('users.detail', compact('borrowedBooks'));
+    }
+
+
 
 
 

@@ -127,7 +127,7 @@
                     @foreach($following as $follow)
                         <tr>
                             <td> {{$follow->name}} </td>
-                            <td><a href="#" class="btn btn-primary">View Details</a></td>
+                            <td><a href="{{route('user.borrowedBooks',$follow->id)}}" class="btn btn-primary">View Details</a></td>
                         </tr>
                     @endforeach
 
