@@ -156,4 +156,16 @@ class UserController extends Controller
         return view('users.user_dashboard');
 
     }
+
+            public function follow(User $user)
+        {
+            auth()->user()->follow($user);
+            return redirect()->back()->with('success', 'User followed successfully');
+        }
+
+        public function unfollow(User $user)
+        {
+            auth()->user()->unfollow($user);
+            return redirect()->back()->with('success', 'User unfollowed successfully');
+        }
 }

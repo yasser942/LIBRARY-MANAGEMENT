@@ -37,7 +37,7 @@ Route::post('/logout', [UserController::class, 'logout'])->name('users.logout');
 
 
 Route::group(['middleware' => 'admin'], function () {
-    
+
 
   Route::get('/admin/dashboard', [UserController::class, 'adminDashboard'])->name('admin.dashboard');
   Route::get('/admin/add_book', [BookController::class, 'addBookForm'])->name('admin.add_book');
@@ -60,7 +60,8 @@ Route::middleware(['user'])->group(function () {
     // Routes that require the normal user middleware
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');
     Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
-
+    Route::post('/user/{user}/follow', [UserController::class, 'follow'])->name('user.follow');
+    Route::post('/user/{user}/unfollow', [UserController::class, 'unfollow'])->name('user.unfollow');
 });
 
 

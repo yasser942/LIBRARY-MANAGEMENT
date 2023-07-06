@@ -46,7 +46,7 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
-        
+
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
 
                     @auth
@@ -72,25 +72,25 @@
                     </form>
                   </div>
                 </li>
-                            
+
                       @else
-                            
+
                       <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                         <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
                       </li>
                     @endauth
-                   
-                 
-                 
+
+
+
                   @auth
-                      
+
                       @if (auth()->user()->role == 'admin')
                       <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                         <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
                      </li>
-                   
+
                       @else
-                      
+
                         <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                             <a class="nav-link" href="/user_dashboard"><h5>Dashboard</h5></a>
                          </li>
@@ -99,7 +99,7 @@
                         <a class="nav-link" href="/books"><h5>Books</h5></a>
                       </li>
 
-              
+
                   @endauth
 
                 </ul>
@@ -120,7 +120,7 @@
                 @auth
                     @if (auth()->user()->role=='admin')
                     <table class="table table-hover">
-                 
+
                       <thead>
                       <tr>
                         <th scope="col">U_ID</th>
@@ -145,30 +145,44 @@
                   </table>
                     @else
                     <table class="table table-hover">
-                 
+
                       <thead>
                       <tr>
-                        
+
                         <th scope="col">Name</th>
                         <th scope="col">Follower/Following</th>
-                       
+
                       </tr>
                     </thead>
                     <tbody>
                     @foreach ($users as $user)
                        @if (auth()->user()->id !=$user->id)
                        <tr>
-                        
-                        <td> {{$user->name}} </td>
-                        <td> <td>
-                         
 
-                          
-                          <a href="#"><button type="button" class="btn btn-primary btn-rounded btn-sm m-0">Follow</button></a>
-                          
-                      </td></td>
-                        
-                       
+                        <td> {{$user->name}} </td>
+                        <td>
+
+
+
+                               @if (Auth::check())
+                                   @if (Auth::user()->follows->contains($user))
+                                       <form action="{{ route('user.unfollow', $user) }}" method="POST">
+                                           @csrf
+                                           @method('POST')
+                                           <button type="submit" class="btn btn-danger btn-rounded btn-sm m-0">Unfollow</button>
+                                       </form>
+                                   @else
+                                       <form action="{{ route('user.follow', $user) }}" method="POST">
+                                           @csrf
+                                           <button type="submit" class="btn btn-primary btn-rounded btn-sm m-0">Follow</button>
+                                       </form>
+                                   @endif
+                               @endif
+
+
+                           </td>
+
+
                         </tr>
                        @endif
                     @endforeach
@@ -214,7 +228,7 @@
         </div>
     </div>
 
-  
+
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -232,5 +246,7 @@
       integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
       crossorigin="anonymous"
     ></script>
+
+       </footer>
   </body>
 </html>
