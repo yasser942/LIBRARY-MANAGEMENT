@@ -28,7 +28,7 @@
               <a
                 class="navbar-brand"
                 href="/"
-                
+
                 ><h1><i class="fa fa-book"></i> LMS</h1></a>
 
               <button
@@ -46,8 +46,8 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
                    @auth
-                       
-                  
+
+
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
                     <a
                       class="nav-link dropdown-toggle"
@@ -92,11 +92,11 @@
                 </li>
                   @endif
                   @endauth
-                  
-                    
-                 
-                   
-                 
+
+
+
+
+
 
                 </ul>
               </div>
@@ -216,8 +216,8 @@
                   value="{{ request('isbn') }}"
 
                 />
-                
-               
+
+
               </div>
 
                <!-- Isbn Number -->
@@ -239,11 +239,11 @@
                 value="{{ request('year') }}"
 
               />
-                
-               
+
+
               </div>
 
-              
+
 
 
               <!-- Submit Button -->
@@ -277,7 +277,7 @@
 <br>
 
     <div class = "container" >
-   
+
        <div class="table-responsive">
     <div class="scrollable-table">
         <table class="table table-hover">
@@ -325,64 +325,30 @@
                      </form>
                  </div>
                </td>
-                     
-           
-                     
+
+
+
                  @endif
                  @endauth
               </tr>
           @endforeach
-          
+
             </tbody>
         </table>
     </div>
 </div>
 
-      
-       
+
+
     </div>
 
 
 
 
 
-    <!--footer-->
-    <footer class="footer" id="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5">
-                <h3><i class="fa fa-book"></i> LMS</h3>
-                <br>
+    @include('components.footer')
 
-                <ul class="nav">
-                    <li class="nav-item"><a href="" class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-twitter fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-github fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
-                </ul>
-                <br>
-            </div>
-            <div class="col-md-2">
-                <h5 class="text-md-right">Contact Us</h5>
-                <hr>
-            </div>
-            <div class="col-md-5">
-                <form>
-                    <fieldset class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <textarea class="form-control" id="exampleMessage" placeholder="Message"></textarea>
-                    </fieldset>
-                    <fieldset class="form-group text-xs-right">
-                        <button type="button" class="btn btn-primary btn-lg">Send</button>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
-</footer>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

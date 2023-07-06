@@ -26,7 +26,7 @@
               <a
                 class="navbar-brand"
                 href="/"
-                
+
                 ><h1><i class="fa fa-book"></i> LMS</h1></a>
 
               <button
@@ -49,7 +49,7 @@
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                     <a class="nav-link" href="/register"><h5>SignUp</h5></a>
                   </li>
-                 
+
 
                 </ul>
               </div>
@@ -83,7 +83,7 @@
               </div>
           @endif
           @if($errors->any())
-        
+
           <div>
               <ul>
                   @foreach ($errors->all() as $error)
@@ -91,7 +91,7 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
                     <strong>{{ $error }}</strong>
                   </div>
-  
+
                   @endforeach
               </ul>
           </div>
@@ -160,43 +160,9 @@
         </div>
       </div>
     </div>
-    <!--footer-->
-    <footer class="footer" id="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5">
-                <h3><i class="fa fa-book"></i> LMS</h3>
-                <br>
+    @include('components.footer')
 
-                <ul class="nav">
-                    <li class="nav-item"><a href="" class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-twitter fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-github fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
-                </ul>
-                <br>
-            </div>
-            <div class="col-md-2">
-                <h5 class="text-md-right">Contact Us</h5>
-                <hr>
-            </div>
-            <div class="col-md-5">
-                <form>
-                    <fieldset class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <textarea class="form-control" id="exampleMessage" placeholder="Message"></textarea>
-                    </fieldset>
-                    <fieldset class="form-group text-xs-right">
-                        <button type="button" class="btn btn-primary btn-lg">Send</button>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
-</footer>
-    
+
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

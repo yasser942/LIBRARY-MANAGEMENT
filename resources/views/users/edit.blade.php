@@ -16,7 +16,7 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
-    
+
   </head>
   <body>
     <div class="navigation-wrap bg-light start-header start-style">
@@ -44,7 +44,7 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-               
+
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
                     @auth
                     @if ( auth()->user()->role == 'admin')
@@ -57,7 +57,7 @@
                   </li>
                     @endif
                     @endauth
-                 
+
 
                 </ul>
               </div>
@@ -82,11 +82,11 @@
           />
           <h1>Update Profile</h1>
         </div>
-       
+
         <!-- Update Profile Form -->
         <div class="col-md-7 col-lg-6 ml-auto">
           @if($errors->any())
-        
+
           <div>
               <ul>
                   @foreach ($errors->all() as $error)
@@ -94,17 +94,17 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
                     <strong>{{ $error }}</strong>
                   </div>
-  
+
                   @endforeach
               </ul>
           </div>
       @endif
-           
+
           <form action="{{route('users.update',auth()->user()->id)}}" method="post">
             @csrf
             @method('PUT')
             <div class="row">
-             
+
               <!-- Name -->
               <div class="input-group col-lg-6 mb-4">
                 <div class="input-group-prepend">
@@ -164,9 +164,9 @@
                   class="form-control bg-white border-left-0 border-md"
                   value="{{auth()->user()->email}}"
                 />
-                
+
               </div>
-              
+
 
               <!-- Password -->
               <div class="input-group col-lg-6 mb-4">
@@ -213,49 +213,15 @@
                 </button>
               </div>
 
-             
+
             </div>
           </form>
         </div>
       </div>
     </div>
-    <!--footer-->
-    <footer class="footer" id="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5">
-                <h3><i class="fa fa-book"></i> LMS</h3>
-                <br>
+    @include('components.footer')
 
-                <ul class="nav">
-                    <li class="nav-item"><a href="" class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-twitter fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-github fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
-                </ul>
-                <br>
-            </div>
-            <div class="col-md-2">
-                <h5 class="text-md-right">Contact Us</h5>
-                <hr>
-            </div>
-            <div class="col-md-5">
-                <form>
-                    <fieldset class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <textarea class="form-control" id="exampleMessage" placeholder="Message"></textarea>
-                    </fieldset>
-                    <fieldset class="form-group text-xs-right">
-                        <button type="button" class="btn btn-primary btn-lg">Send</button>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
-</footer>
-    
+
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

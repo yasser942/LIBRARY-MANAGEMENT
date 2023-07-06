@@ -46,7 +46,7 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
-                   
+
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
 
                     @auth
@@ -77,24 +77,24 @@
                           <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
                         </li>
                     @endauth
-                    
+
                     @auth
                     @if (auth()->user()->role == 'admin')
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                      <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
                   </li>
-                 
-                
-                
+
+
+
                     @else
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                      <a class="nav-link" href="/user_dashboard"><h5>Dashboard</h5></a>
                   </li>
                     @endif
                     @endauth
-                 
-                    
-                 
+
+
+
 
                 </ul>
               </div>
@@ -112,7 +112,7 @@
     <div class = "container" >
          <div class="table-responsive scrollable-table">
                 <table class="table table-hover">
-                 
+
                     <thead>
                     <tr>
                       <th scope="col">book_id</th>
@@ -130,8 +130,8 @@
                   </thead>
                   <tbody>
                   @foreach ($books as $book)
-                      
-                 
+
+
 
 
                   <tr>
@@ -159,52 +159,19 @@
                   </tr>
                   @endforeach
 
-                
+
 
                   </tbody>
 
-               
+
                 </table>
             </div>
     </div>
 
-  <!--footer-->
-    <footer class="footer" id="footer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5">
-                <h3><i class="fa fa-book"></i> LMS</h3>
-                <br>
+    @include('components.footer')
 
-                <ul class="nav">
-                    <li class="nav-item"><a href="" class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-twitter fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-github fa-lg"></i></a></li>
-                    <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
-                </ul>
-                <br>
-            </div>
-            <div class="col-md-2">
-                <h5 class="text-md-right">Contact Us</h5>
-                <hr>
-            </div>
-            <div class="col-md-5">
-                <form>
-                    <fieldset class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <textarea class="form-control" id="exampleMessage" placeholder="Message"></textarea>
-                    </fieldset>
-                    <fieldset class="form-group text-xs-right">
-                        <button type="button" class="btn btn-primary btn-lg">Send</button>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
 
-   
+
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
