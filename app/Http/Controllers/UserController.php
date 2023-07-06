@@ -75,7 +75,7 @@ class UserController extends Controller
      */
     public function edit()
     {
-        
+
         return view('users.edit');
     }
 
@@ -102,7 +102,7 @@ class UserController extends Controller
             return redirect()->route('index')->with('success', 'User updated successfully');
         }
 
-       
+
     }
 
     /**
@@ -168,4 +168,16 @@ class UserController extends Controller
             auth()->user()->unfollow($user);
             return redirect()->back()->with('success', 'User unfollowed successfully');
         }
+
+        public  function follower_following(){
+
+            $user = auth()->user();
+            $followers = $user->followers;
+            $following = $user->follows;
+            return view('users.follower_following', compact('followers', 'following'));
+        }
+
+
+
+
 }

@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         $this->follows()->detach($user->id);
     }
+
+    public function borrows()
+    {
+        return $this->hasMany(Borrow::class);
+    }
 }

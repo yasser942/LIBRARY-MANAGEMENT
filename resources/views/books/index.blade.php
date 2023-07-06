@@ -32,7 +32,7 @@
               <a
                 class="navbar-brand"
                 href="/"
-                
+
                 ><h1><i class="fa fa-book"></i> LMS</h1></a>
 
               <button
@@ -49,9 +49,9 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
-                
+
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
-                    
+
                     @auth
                     <a
                       class="nav-link dropdown-toggle"
@@ -78,11 +78,11 @@
                           </button>
                       </form>
                   </div>
-                  
+
                     @endauth
                   </li>
                   @auth
-                  
+
               @else
                   <!-- User is not authenticated -->
                   <!-- Display the login/signup link -->
@@ -95,9 +95,9 @@
                        <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                         <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
                      </li>
-                    
-                   
-                   
+
+
+
                        @else
                        <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                         <a class="nav-link" href="{{route('user.dashboard')}}"><h5>Dashboard</h5></a>
@@ -108,8 +108,8 @@
                     <a class="nav-link" href="/"><h5>Home</h5></a>
                   </li>
 
-                   
-                   
+
+
 
                 </ul>
               </div>
@@ -129,7 +129,7 @@
       <strong>{{ session('success') }}</strong>
     </div>
    @endif
-   
+
  <!-- search -->
  <div class = "container my-4">
   <div class="col-md-7 col-lg-8 mx-auto">
@@ -217,8 +217,8 @@
                 value="{{ request('isbn') }}"
 
               />
-              
-             
+
+
             </div>
 
              <!-- Isbn Number -->
@@ -240,11 +240,11 @@
               value="{{ request('year') }}"
 
             />
-              
-             
+
+
             </div>
 
-            
+
 
 
             <!-- Submit Button -->
@@ -274,7 +274,7 @@
       </form>
       </div>
    </div>
-    
+
      @foreach ($categories as $category)
      <h1>{{ ucfirst($category) }} </h1>
      <div class="container-fluid" id="s">
@@ -297,7 +297,7 @@
                                  By: {{ $book->author }}
                              </div>
                              <p>Publication Year: {{ $book->year }}</p>
- 
+
                              @auth
 
                              @if (auth()->user()->role == 'admin')
@@ -313,16 +313,31 @@
                                   </form>
                               </div>
                           </div>
-                          
+
                              @else
-                             <div class="btn">
-                              <a href="#"><button>On Hold</button></a>
-                              <a href="#"><button>Borrow</button></a>
-                          </div>
+                                     <div class="btn">
+                                         <div class="btn-group">
+                                             @if (auth()->check() && auth()->user()->role === 'user')
+                                                 @if (!$book->borrows()->where('user_id', auth()->user()->id)->exists())
+                                                     @if ($book->count > 0)
+                                                         <form action="{{ route('borrow', $book) }}" method="POST">
+                                                             @csrf
+                                                             <button type="submit">Borrow</button>
+                                                         </form>
+                                                     @else
+                                                         <button disabled>Not Available</button>
+                                                     @endif
+                                                 @else
+                                                     <button disabled>Already Borrowed</button>
+                                                 @endif
+                                             @endif
+                                         </div>
+                                     </div>
+
                              @endif
-                               
+
                              @endauth
- 
+
                          </div>
                      </div>
                  @endif
@@ -331,10 +346,10 @@
      </div>
      <hr class="dotted">
  @endforeach
-   
-    
- 
-    
+
+
+
+
   <!--footer-->
   <footer class="footer" id="footer">
     <div class="container">
@@ -371,7 +386,7 @@
         </div>
     </div>
 </footer>
-    
+
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -388,6 +403,6 @@
         autoplayHoverPause: true,
       });
     </script>
-    
+
   </body>
 </html>

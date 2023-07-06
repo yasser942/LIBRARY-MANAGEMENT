@@ -59,9 +59,12 @@ Route::group(['middleware' => 'admin'], function () {
 Route::middleware(['user'])->group(function () {
     // Routes that require the normal user middleware
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');
+    Route::get('/follower_following', [UserController::class, 'follower_following'])->name('user.follower_following');
     Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
     Route::post('/user/{user}/follow', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/user/{user}/unfollow', [UserController::class, 'unfollow'])->name('user.unfollow');
+    Route::post('/books/{book}/borrow', [BookController::class, 'borrowBook'])->name('borrow');
+
 });
 
 

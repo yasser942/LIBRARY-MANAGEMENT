@@ -17,8 +17,8 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/add_book.css') }}" />
+    <link rel="stylesheet" href="{{asset('css/style.css')}}" />
+    <link rel="stylesheet" href="{{asset('css/add_book.css')}}" />
   </head>
   <body>
     <div class="navigation-wrap bg-light start-header start-style">
@@ -46,75 +46,54 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
-                   @auth
-                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
-                    <a
-                      class="nav-link dropdown-toggle"
-                      data-toggle="dropdown"
-                      href="#"
-                      role="button"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                      ><h5>Profile</h5></a
-                    >
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">
-                          <h5>{{ auth()->user()->name }}</h5>
-                      </a>
-                      <a class="dropdown-item" href="#">
-                          <h5>{{ auth()->user()->email }}</h5>
-                      </a>
-                      <a class="dropdown-item" href="{{ route('users.edit', auth()->user()->id) }}"><h5>Update Profile</h5></a>
 
-                      <form action="{{ route('users.logout') }}" method="POST">
-                          @csrf
-                          <button type="submit" class="dropdown-item" style="cursor: pointer;">
-                              <h5>Logout</h5>
-                          </button>
-                      </form>
-                  </div>
-                  </li>
-                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                       <a class="nav-link" href="{{route('admin.registeredusers')}}"><h5>Members List</h5></a>
-                   </li>
+                    @auth()
+                        <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
+                            <a
+                                class="nav-link dropdown-toggle"
+                                data-toggle="dropdown"
+                                href="#"
+                                role="button"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            ><h5>Profile</h5></a
+                            >
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item"><h5>{{ auth()->user()->name }}</h5></a>
+                                <a class="dropdown-item"><h5>{{ auth()->user()->email }}</h5></a>
+                                <a class="dropdown-item" href="{{ route('users.edit', auth()->user()->id) }}"><h5>Update Profile</h5></a>
+                                <form action="{{ route('users.logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item" style="cursor: pointer;">
+                                        <h5>Logout</h5>
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
 
+                    @else
+                        <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                            <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
+                        </li>
 
-                   @if (auth()->user()->role == 'user')
+                    @endauth
 
-                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                    <a
-                      class="nav-link dropdown-toggle"
-                      data-toggle="dropdown"
-                      href="#"
-                      role="button"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                      ><h5>Manage Account</h5>
-                    </a>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="/personal_bookshelf"><h5>Personal Bookshelf</h5></a>
-                      <a class="dropdown-item" href="/follower_following"><h5>Followers/Following</h5></a>
-                      <a class="dropdown-item" href="/books"><h5>View Book</h5></a>
-                      <a class="dropdown-item" href="/fines"><h5>Fines</h5></a>
-                    </div>
-                  </li>
+                        @auth()
 
-                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="/books"><h5>Books</h5></a>
-                     </li>
+                            @if(auth()->user()->role == 'admin')
 
-                   @endif
-                   @else
-                       <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
-                      </li>
-                   @endauth
+                                <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                                    <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
+                                </li>
 
 
+                            @else
+                                <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                                    <a class="nav-link" href="{{route('user.dashboard')}}"><h5>Dashboard</h5></a>
+                                </li>
+                            @endif
 
-
-
-
+                        @endauth
 
 
 
@@ -131,25 +110,74 @@
     <br>
     <br>
 
-    <div class="container">
-        <div class="row home_img">
-            <div class="col-lg-7 col-md-7 col-sm-12">
-                <div class="card" >
-                   <img src="{{ asset('images/bglib-dashboard.png') }}" />
+    <div class = "container" >
+        <h1>Following</h1>
 
-                </div>
+            @if(count($following)!= 0)
+            <div class="table-responsive">
+                <table class="table table-hover">
+
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">View Details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($following as $follow)
+                        <tr>
+                            <td> {{$follow->name}} </td>
+                            <td><a href="#" class="btn btn-primary">View Details</a></td>
+                        </tr>
+                    @endforeach
+
+                    </tbody>
+
+                </table>
             </div>
-            <div class="col-lg-5 col-md-5 col-sm-12">
-                <div class="card txt" >
-                    <h1>WELCOME  TO  DASHBOARD</h1>
-                    <h4>Member can see followers following, what their friends are reading, can borrow return book,can calculate fines etc.</h4>
-                    <h5>*****</h5>
-                </div>
-            </div>
-        </div>
+            @else
+            <p><h2>Not following</h2></p>
+            @endif
+
+
+
     </div>
 
-    <!--footer-->
+    <div class = "container" >
+        <h1>Followers</h1>
+            @if(count($followers)!=0)
+
+            <div class="table-responsive">
+                <table class="table table-hover">
+
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($followers as $follower)
+
+                        <tr>
+                            <td> {{$follower->name}} </td>
+                        </tr>
+
+                    @endforeach
+                    </tbody>
+
+
+                </table>
+            </div>
+            @else
+            <p><h2>No followers</h2></p>
+            @endif
+
+
+
+
+    </div>
+
+  <!--footer-->
     <footer class="footer" id="footer">
     <div class="container">
         <div class="row">
@@ -184,7 +212,7 @@
             </div>
         </div>
     </div>
-</footer>
+
 
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -203,5 +231,7 @@
       integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
       crossorigin="anonymous"
     ></script>
+
+    </footer>
   </body>
 </html>

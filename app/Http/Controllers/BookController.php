@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Borrow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -82,7 +83,7 @@ public function books(Request $request)
 
     $books = $query->latest()->get();
 
-    
+
     return view('books.index', compact('categories', 'books'));
 }
 
@@ -101,7 +102,7 @@ public function books(Request $request)
     public function store(Request $request)
     {
 
-       
+
 
         $validatedData = $request->validate([
             'isbn' => 'required|unique:books',
@@ -122,11 +123,11 @@ public function books(Request $request)
         $validatedData['image']=$imagePath;
          // Create a new book using the validated data
          $book = Book::create($validatedData);
-        
+
 
     // Redirect to the book's details page
     return redirect()->route('books.index');
-        
+
     }
 
 
@@ -142,15 +143,15 @@ public function books(Request $request)
         //
     }
 
-    
+
 
     /**
      * Update the specified resource in storage.
      */
     public function editBook(Request $request, Book $book)
     {
-        
-        
+
+
         $validatedData = $request->validate([
             'isbn' => 'required|unique:books,isbn,' . $book->id,
             'title' => 'required',
@@ -170,9 +171,9 @@ public function books(Request $request)
             $validatedData['image'] = $book->image;
         }
 
-       
+
         $redirectUrl = $request->input('redirect_url');
-       
+
          // Update the book with the validated data
          $book->update($validatedData);
          return redirect($redirectUrl)->to($redirectUrl)->with('success', 'Book updated successfully');
@@ -195,7 +196,7 @@ public function books(Request $request)
         // Get the redirect URL from the request
         $redirectUrl = $request->input('redirect_url');
 
-        
+
 
         // Check if the book exists
         if ($book) {
@@ -224,4 +225,39 @@ public function books(Request $request)
     public function editBookForm(Book $book){
         return view( 'users.admin.edit_book', compact('book'));
     }
+
+    public function borrowBook(Book $book)
+    {
+        // Check if the user is authenticated and is a normal user
+        if (auth()->check() && auth()->user()->role === 'user') {
+            // Check if the user has already borrowed the book
+            if (auth()->user()->borrows()->where('book_id', $book->id)->exists()) {
+                // Redirect the user back with an error message if the book is already borrowed
+                return redirect()->back()->with('error', 'You have already borrowed this book.');
+            }
+
+            // Check if the book count is greater than 0
+            if ($book->count > 0) {
+                // Create a new borrow record
+                Borrow::create([
+                    'user_id' => auth()->user()->id,
+                    'book_id' => $book->id,
+                ]);
+
+                // Decrease the book count by one
+                $book->decrement('count');
+
+                // Redirect the user back with a success message
+                return redirect()->back()->with('success', 'Book borrowed successfully.');
+            } else {
+                // Redirect the user back with an error message if the book count is 0
+                return redirect()->back()->with('error', 'This book is not available for borrowing.');
+            }
+        }
+
+        // If the user is not a normal user, redirect with an error message
+        return redirect()->back()->with('error', 'You are not authorized to borrow books.');
+    }
+
+
 }
