@@ -259,5 +259,34 @@ public function books(Request $request)
         return redirect()->back()->with('error', 'You are not authorized to borrow books.');
     }
 
+    public function returnBook(Book $book)
+    {
+        // Check if the user is authenticated and is a normal user
+        if (auth()->check() && auth()->user()->role === 'user') {
+            // Find the borrow record for the user and book
+            $borrow = Borrow::where('user_id', auth()->user()->id)
+                ->where('book_id', $book->id)
+                ->first();
+
+            if ($borrow) {
+                // Delete the borrow record
+                $borrow->delete();
+
+                // Increment the count of the book by one
+                $book->increment('count');
+
+                // Redirect the user back with a success message
+                return redirect()->back()->with('success', 'Book returned successfully.');
+            } else {
+                // If the borrow record is not found, redirect with an error message
+                return redirect()->back()->with('error', 'You have not borrowed this book.');
+            }
+        }
+
+        // If the user is not a normal user, redirect with an error message
+        return redirect()->back()->with('error', 'You are not authorized to return books.');
+    }
+
+
 
 }

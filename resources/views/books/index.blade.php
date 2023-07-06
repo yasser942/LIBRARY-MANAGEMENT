@@ -124,13 +124,21 @@
     <br>
     <br>
     @if (session('success'))
-    <div class="alert alert-info alert-dismissible">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
-      <strong>{{ session('success') }}</strong>
-    </div>
-   @endif
+        <div class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+            <strong>{{ session('success') }}</strong>
+        </div>
+    @endif
 
- <!-- search -->
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+            <strong>{{ session('error') }}</strong>
+        </div>
+    @endif
+
+
+    <!-- search -->
  <div class = "container my-4">
   <div class="col-md-7 col-lg-8 mx-auto">
     <form action="{{route('bookss.search')}}" method="post">
@@ -328,13 +336,17 @@
                                                          <button disabled>Not Available</button>
                                                      @endif
                                                  @else
-                                                     <button disabled>Already Borrowed</button>
+                                                     <form action="{{ route('return', $book) }}" method="POST">
+                                                         @csrf
+                                                         <button type="submit">Return</button>
+                                                     </form>
                                                  @endif
                                              @endif
                                          </div>
                                      </div>
 
-                             @endif
+
+                                 @endif
 
                              @endauth
 

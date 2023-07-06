@@ -64,6 +64,8 @@ Route::middleware(['user'])->group(function () {
     Route::post('/user/{user}/follow', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/user/{user}/unfollow', [UserController::class, 'unfollow'])->name('user.unfollow');
     Route::post('/books/{book}/borrow', [BookController::class, 'borrowBook'])->name('borrow');
+    Route::post('/books/{book}/return', [BookController::class, 'returnBook'])->name('return');
+
 
 });
 
