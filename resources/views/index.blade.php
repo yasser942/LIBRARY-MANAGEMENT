@@ -88,7 +88,7 @@
                 </li>
                   @else
                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                   <a class="nav-link" href="/user_dashboard"><h5>Dashboard</h5></a>
+                   <a class="nav-link" href="{{route('user.dashboard')}}"><h5>Dashboard</h5></a>
                 </li>
                   @endif
                   @endauth

@@ -50,7 +50,19 @@ Route::group(['middleware' => 'admin'], function () {
   Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
   Route::get('/admin/book_show', [BookController::class, 'booksDetial'])->name('admin.book_show');
 
+
+
 });
+
+
+
+Route::middleware(['user'])->group(function () {
+    // Routes that require the normal user middleware
+    Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');
+    Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
+
+});
+
 
 
 

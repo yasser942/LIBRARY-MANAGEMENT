@@ -17,8 +17,8 @@
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="css\style.css" />
 
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 
@@ -100,7 +100,7 @@
                    
                        @else
                        <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="/user_dashboard"><h5>Dashboard</h5></a>
+                        <a class="nav-link" href="{{route('user.dashboard')}}"><h5>Dashboard</h5></a>
                      </li>
                        @endif
                    @endauth

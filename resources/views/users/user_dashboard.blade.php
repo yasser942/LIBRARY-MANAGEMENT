@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>LMS</title>
+    <title>lms</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -46,62 +46,78 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
-        
-                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
-
-                    @auth
+                   @auth
+                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
                     <a
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    ><h5>Profile</h5></a
-                  >
-                   <div class="dropdown-menu">
-                    <a class="dropdown-item"><h5>{{auth()->user()->name}}</h5></a>
-                    <a class="dropdown-item"><h5>{{auth()->user()->email}}</h5></a>
-                    <a class="dropdown-item" href="{{ route('users.edit', auth()->user()->id) }}"><h5>Update Profile</h5></a>
+                      class="nav-link dropdown-toggle"
+                      data-toggle="dropdown"
+                      href="#"
+                      role="button"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      ><h5>Profile</h5></a
+                    >
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#">
+                          <h5>{{ auth()->user()->name }}</h5>
+                      </a>
+                      <a class="dropdown-item" href="#">
+                          <h5>{{ auth()->user()->email }}</h5>
+                      </a>
+                      <a class="dropdown-item" href="{{ route('users.edit', auth()->user()->id) }}"><h5>Update Profile</h5></a>
 
-                       <form action="{{ route('users.logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="dropdown-item" style="cursor: pointer;">
-                            <h5>Logout</h5>
-                        </button>
-                    </form>
+                      <form action="{{ route('users.logout') }}" method="POST">
+                          @csrf
+                          <button type="submit" class="dropdown-item" style="cursor: pointer;">
+                              <h5>Logout</h5>
+                          </button>
+                      </form>
                   </div>
-                </li>
-                            
-                      @else
-                            
-                      <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                  </li>
+                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                       <a class="nav-link" href="/registeredusers"><h5>Members List</h5></a>
+                   </li>
+
+
+                   @if (auth()->user()->role == 'user')
+                       
+                   <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                    <a
+                      class="nav-link dropdown-toggle"
+                      data-toggle="dropdown"
+                      href="#"
+                      role="button"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                      ><h5>Manage Account</h5>
+                    </a>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="/personal_bookshelf"><h5>Personal Bookshelf</h5></a>
+                      <a class="dropdown-item" href="/follower_following"><h5>Followers/Following</h5></a>
+                      <a class="dropdown-item" href="/books"><h5>View Book</h5></a>
+                      <a class="dropdown-item" href="/fines"><h5>Fines</h5></a>
+                    </div>
+                  </li>
+                  
+                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                        <a class="nav-link" href="/books"><h5>Books</h5></a>
+                     </li>
+                       
+                   @endif
+                   @else
+                       <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                         <a class="nav-link" href="/login"><h5>Login/SignUp</h5></a>
                       </li>
-                    @endauth
-                   
+                   @endauth
+                  
                  
+
                  
-                  @auth
-                      
-                      @if (auth()->user()->role == 'admin')
-                      <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="{{route('admin.dashboard')}}"><h5>Dashboard</h5></a>
-                     </li>
-                   
-                      @else
-                      
-                        <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                            <a class="nav-link" href="/user_dashboard"><h5>Dashboard</h5></a>
-                         </li>
-                      @endif
-                      <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="/books"><h5>Books</h5></a>
-                      </li>
+                
 
-              
-                  @endauth
-
+             
+                    
+                    
                 </ul>
               </div>
             </nav>
@@ -115,70 +131,25 @@
     <br>
     <br>
 
-    <div class = "container" >
-         <div class="table-responsive">
-                @auth
-                    @if (auth()->user()->role=='admin')
-                    <table class="table table-hover">
+    <div class="container">
+        <div class="row home_img">
+            <div class="col-lg-7 col-md-7 col-sm-12">
+                <div class="card" >
+                   <img src="{{ asset('images/bglib-dashboard.png') }}" />
                  
-                      <thead>
-                      <tr>
-                        <th scope="col">U_ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Unpaid Fines</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($users as $user)
-                       @if (auth()->user()->id !=$user->id)
-                       <tr>
-                        <td> {{$user->id}}</td>
-                        <td> {{$user->name}} </td>
-                        <td> {{$user->email}} </td>
-                        <td>{{ $user->address}} </td>
-                        <td> 0 </td>
-                        </tr>
-                       @endif
-                    @endforeach
-                  </table>
-                    @else
-                    <table class="table table-hover">
-                 
-                      <thead>
-                      <tr>
-                        
-                        <th scope="col">Name</th>
-                        <th scope="col">Follower/Following</th>
-                       
-                      </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($users as $user)
-                       @if (auth()->user()->id !=$user->id)
-                       <tr>
-                        
-                        <td> {{$user->name}} </td>
-                        <td> <td>
-                         
-
-                          
-                          <a href="#"><button type="button" class="btn btn-primary btn-rounded btn-sm m-0">Follow</button></a>
-                          
-                      </td></td>
-                        
-                       
-                        </tr>
-                       @endif
-                    @endforeach
-                  </table>
-                    @endif
-                @endauth
+                </div>
             </div>
+            <div class="col-lg-5 col-md-5 col-sm-12">
+                <div class="card txt" >
+                    <h1>WELCOME  TO  DASHBOARD</h1>
+                    <h4>Member can see followers following, what their friends are reading, can borrow return book,can calculate fines etc.</h4>
+                    <h5>*****</h5>
+                </div>
+            </div>
+        </div>
     </div>
 
-  <!--footer-->
+    <!--footer-->
     <footer class="footer" id="footer">
     <div class="container">
         <div class="row">
@@ -213,8 +184,8 @@
             </div>
         </div>
     </div>
-
-  
+</footer>
+   
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
       integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
