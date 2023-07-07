@@ -116,7 +116,7 @@
                     </div>
                   </li>
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="#"><h5>Manage Fines</h5></a>
+                        <a class="nav-link" href="{{route('fines')}}"><h5>Manage Fines</h5></a>
                      </li>
                      @endif
                      @endauth

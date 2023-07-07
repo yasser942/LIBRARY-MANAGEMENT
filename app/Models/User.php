@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Borrow::class);
     }
+
+    public function fines()
+    {
+        return $this->hasMany(Fine::class);
+    }
 }

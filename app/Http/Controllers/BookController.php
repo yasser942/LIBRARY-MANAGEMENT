@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Borrow;
+use App\Models\Fine;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -283,8 +285,29 @@ public function books(Request $request)
                 // Increment the count of the book by one
                 $book->increment('count');
 
+                // Calculate the fine if the return date is past the due date
+                $returnDate = Carbon::now();
+                $dueDate = Carbon::parse($borrow->borrowed_at)->addDays(15);
+                $fine = 0;
+
+                if ($returnDate > $dueDate) {
+                    // Calculate the number of days the book is overdue
+                    $daysOverdue = $returnDate->diffInDays($dueDate);
+                    // Calculate the fine amount based on the number of days overdue
+                    $fine = $daysOverdue * 10; // Assuming a fine of 10 units per day
+
+                    // Save the fine in the fines table
+                   $fine= Fine::create([
+                        'user_id' => auth()->user()->id,
+                        'book_id' => $book->id,
+                        'amount' => $fine,
+                    ]);
+
+
+                }
+
                 // Redirect the user back with a success message
-                return redirect()->back()->with('success', 'Book returned successfully.');
+                return redirect()->back()->with('success', 'Book returned successfully. Fine: ' . $fine->amount);
             } else {
                 // If the borrow record is not found, redirect with an error message
                 return redirect()->back()->with('error', 'You have not borrowed this book.');

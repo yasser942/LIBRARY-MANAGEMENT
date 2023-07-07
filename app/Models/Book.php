@@ -15,4 +15,8 @@ class Book extends Model
     {
         return $this->hasMany(Borrow::class);
     }
+    public function fines()
+    {
+        return $this->hasMany(Fine::class);
+    }
 }

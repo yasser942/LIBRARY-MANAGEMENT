@@ -49,6 +49,10 @@ Route::group(['middleware' => 'admin'], function () {
   Route::put('/books/{book}', [BookController::class, 'editBook'])->name('books.edit');
   Route::get('/admin/book_show', [BookController::class, 'booksDetial'])->name('admin.book_show');
   Route::get('/admin/borrowed-books', [UserController::class, 'viewBorrowedBooks'])->name('admin.borrowed-books');
+  Route::get('/fines', [UserController::class, 'showFines'])->name('fines');
+    Route::delete('/admin/delete-fines/{user}', [UserController::class, 'deleteFines'])->name('admin.deleteFines');
+
+
 
 
 

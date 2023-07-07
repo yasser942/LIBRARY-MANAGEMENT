@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>lms</title>
+    <title>LMS</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -29,6 +29,7 @@
               <a
                 class="navbar-brand"
                 href="/"
+                target="_blank"
                 ><h1><i class="fa fa-book"></i> LMS</h1></a>
 
               <button
@@ -45,30 +46,29 @@
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto py-4 py-md-0">
-
-                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
-                      @auth()
-                          <a
-                              class="nav-link dropdown-toggle"
-                              data-toggle="dropdown"
-                              href="#"
-                              role="button"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                          ><h5>Profile</h5></a
-                          >
-                          <div class="dropdown-menu">
-                              <a class="dropdown-item"><h5>{{ auth()->user()->name }}</h5></a>
-                              <a class="dropdown-item"><h5>{{ auth()->user()->email }}</h5></a>
-                              <a class="dropdown-item" href="{{ route('users.edit', auth()->user()->id) }}"><h5>Update Profile</h5></a>
-                              <form action="{{ route('users.logout') }}" method="POST">
-                                  @csrf
-                                  <button type="submit" class="dropdown-item" style="cursor: pointer;">
-                                      <h5>Logout</h5>
-                                  </button>
-                              </form>
-                          </div>
-                  </li>
+                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
+                        @auth()
+                            <a
+                                class="nav-link dropdown-toggle"
+                                data-toggle="dropdown"
+                                href="#"
+                                role="button"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            ><h5>Profile</h5></a
+                            >
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item"><h5>{{ auth()->user()->name }}</h5></a>
+                                <a class="dropdown-item"><h5>{{ auth()->user()->email }}</h5></a>
+                                <a class="dropdown-item" href="{{ route('users.edit', auth()->user()->id) }}"><h5>Update Profile</h5></a>
+                                <form action="{{ route('users.logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item" style="cursor: pointer;">
+                                        <h5>Logout</h5>
+                                    </button>
+                                </form>
+                            </div>
+                    </li>
 
                     @if(auth()->user()->role=='admin')
                         <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
@@ -82,7 +82,6 @@
                         </li>
 
                     @endauth
-
 
                 </ul>
               </div>
@@ -98,44 +97,57 @@
     <br>
 
     <div class = "container" >
-         <div class="table-responsive">
-                <table class="table table-hover">
-               @auth()
-                   @if(auth()->user()->role=='admin')
+        <h1>Unpaid Fines </h1>
 
+            @if(count($usersWithFines)!==0)
+
+            <div class="table-responsive">
+                <table class="table table-hover">
                     <thead>
                     <tr>
-                      <th scope="col">M_Id</th>
-                        <th scope="col">M_name</th>
-                      <th scope="col">book_id</th>
-                      <th scope="col">start_date</th>
-                      <th scope="col">due_date</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Fines</th>
+                        <th scope="col">Total Fine</th>
+                        <th scope="col">Action</th>
+
+
                     </tr>
-                  </thead>
-                  <tbody>
+                    </thead>
+                    <tbody>
+                    @foreach($usersWithFines as $user)
 
-                  @foreach($borrowedBooks as $borrowedBook)
-                  <tr>
+                        <tr>
+                            <td> {{$user->id}} </td>
+                            <td>{{$user->name}} </td>
+                            <td> {{$user->totalFine }} </td>
+                            <td>
+                                <form action="{{ route('admin.deleteFines', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete Fines</button>
+                                </form>
+                            </td>
 
-                  <td> {{$borrowedBook->user_id}} </td>
-                      <td> {{$borrowedBook->user->name}} </td>
-                  <td>  {{$borrowedBook->book_id}} </td>
-                  <td> {{$borrowedBook->borrowed_at}} </td>
-                      <td> {{$borrowedBook->return_date}} </td>
+                        </tr>
+                    @endforeach
 
-                  </tr>
 
-                  @endforeach
 
-                  </tbody>
-
-                    @endif
-                    @endauth
+                    </tbody>
                 </table>
             </div>
+        @else
+            <p><h2>No Books Borrowed Yet</h2></p>
+            @endif
+
+
+
     </div>
 
+
+
   @include('components.footer')
+
 
 
     <script
@@ -157,3 +169,4 @@
     ></script>
   </body>
 </html>
+

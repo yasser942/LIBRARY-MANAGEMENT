@@ -3,14 +3,14 @@ function animateProgress(elementId, startValue, endValue, speed) {
     let progressValue = circularProgress.querySelector(".progress-value");
 
     let progress = setInterval(() => {
-        startValue++;
-
-        progressValue.textContent = `${startValue}`
-        circularProgress.style.background = `conic-gradient(brown ${startValue * 3.6}deg, #ededed 0deg)`
-
-        if (startValue == endValue) {
+        if (startValue >= endValue) {
             clearInterval(progress);
+            return;
         }
+
+        startValue++;
+        progressValue.textContent = `${startValue}`;
+        circularProgress.style.background = `conic-gradient(brown ${startValue * 3.6}deg, #ededed 0deg)`;
     }, speed);
 }
 

@@ -162,6 +162,8 @@ class UserController extends Controller
         $borrowedBooksCount = Borrow::count();
 
 
+
+
         return view('users.admin.dashboard', compact('userCount', 'bookCount', 'availableBooksCount', 'borrowedBooksCount'));
     }
 
@@ -205,9 +207,25 @@ class UserController extends Controller
         return view('users.admin.borrow_show', compact('borrowedBooks'));
     }
 
+    public function showFines(){
 
+        $usersWithFines = User::whereHas('fines')
+            ->with('fines')
+            ->get()
+            ->map(function ($user) {
+                $user->totalFine = $user->fines->sum('amount');
+                return $user;
+            });
+        return view('users.admin.fines',compact('usersWithFines'));
+    }
 
+        public function deleteFines(User $user)
+        {
+            // Delete fines for the user
+            $user->fines()->delete();
 
-
+            // Redirect back with a success message
+            return redirect()->back()->with('success', 'Fines deleted successfully.');
+        }
 
 }
