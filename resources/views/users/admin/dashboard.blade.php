@@ -9,31 +9,7 @@
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
 
-      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-      <script type="text/javascript">
-          google.charts.load('current', {'packages':['corechart']});
-          google.charts.setOnLoadCallback(drawChart);
 
-          function drawChart() {
-
-              var data = google.visualization.arrayToDataTable([
-                  ['Task', 'Hours per Day'],
-                  ['Users', {{$userCount}}],
-                  ['Books', {{$bookCount}}],
-                  ['Available Books',   {{$availableBooksCount}}],
-                  ['Borrowed Books', {{$usersWithBorrowedBooksCount}}],
-
-              ]);
-
-              var options = {
-                  title: 'Statistics'
-              };
-
-              var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-              chart.draw(data, options);
-          }
-      </script>
 
 
     <link
@@ -47,6 +23,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/add_book.css') }}" />
+
 
   </head>
   <body>
@@ -168,13 +145,48 @@
                   <img src="{{ asset('images/bglib-dashboard.png') }}" />
 
                 </div>
-                <div id="piechart" style="width: 900px; height: 500px;"></div>
             </div>
             <div class="col-lg-5 col-md-5 col-sm-12">
                 <div class="card txt" >
                     <h1>WELCOME  TO  DASHBOARD</h1>
                     <h4>Librarian can add/delete/view/issue books, manage fines and edit shelf.</h4>
                     <h5>*****</h5>
+
+
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <div class="circular-progress" id="user-progress">
+                        <span class="progress-value">0</span>
+                    </div>
+                    <h1 class="card txt">Total Users</h1>
+                </div>
+                <div class="col-md-3">
+                    <div class="circular-progress" id="book-progress">
+                        <span class="progress-value">0</span>
+                    </div>
+                    <h1 class="card txt">Total Books</h1>
+                </div>
+                <div class="col-md-3">
+                    <div class="circular-progress" id="available-progress">
+                        <span class="progress-value">0</span>
+                    </div>
+                    <h1 class="card txt">Available Books</h1>
+                </div>
+                <div class="col-md-3">
+                    <div class="circular-progress" id="borrowed-progress">
+                        <span class="progress-value">0</span>
+                    </div>
+                    <h1 class="card txt">Borrowed Books</h1>
                 </div>
             </div>
         </div>
@@ -201,5 +213,13 @@
       integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
       crossorigin="anonymous"
     ></script>
+
+    <script>
+        var users = {{$userCount}};
+        var books = {{$bookCount}};
+        var available_books = {{$availableBooksCount}};
+        var borrowed_books = {{$borrowedBooksCount}}
+    </script>
+    <script src="{{asset('js/script.js')}}"></script>
   </body>
 </html>

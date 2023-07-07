@@ -152,10 +152,11 @@ class UserController extends Controller
     {
         $userCount = User::count();
         $bookCount = Book::count();
-        $availableBooksCount = Book::where('count', '>', 0)->count();
-        $usersWithBorrowedBooksCount = Borrow::distinct('user_id')->count('user_id');
+        $availableBooksCount = Book::sum('count');;
+        $borrowedBooksCount = Borrow::count();
 
-        return view('users.admin.dashboard', compact('userCount', 'bookCount', 'availableBooksCount', 'usersWithBorrowedBooksCount'));
+
+        return view('users.admin.dashboard', compact('userCount', 'bookCount', 'availableBooksCount', 'borrowedBooksCount'));
     }
 
     public function userDashboard(){

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 html {
   scroll-behavior: smooth;
 }
@@ -605,11 +606,41 @@ footer .form-control {
 
 .table thead th {
   position: sticky;
-  
+
   top: 0;
   background-color: #8167a9; /* Specify your desired background color */
   color: #fff; /* Set the text color to white */
   z-index: 1;
+}
+
+.circular-progress{
+    position: relative;
+    height: 250px;
+    width: 250px;
+    border-radius: 50%;
+    background: conic-gradient(brown 3.6deg, #ededed 0deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.circular-progress::before{
+    content: "";
+    position: absolute;
+    height: 210px;
+    width: 210px;
+    border-radius: 50%;
+    background-color: #fff;
+}
+.progress-value{
+    position: relative;
+    font-size: 40px;
+    font-weight: 600;
+    color: brown;
+}
+.text{
+    font-size: 30px;
+    font-weight: 500;
+    color: #606060;
 }
 
 
