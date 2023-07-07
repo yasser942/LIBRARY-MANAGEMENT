@@ -132,7 +132,13 @@ class UserController extends Controller
         // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
             // Authentication successful
-            return redirect('/');
+
+            if (\auth()->user()->role=='admin') {
+                return redirect()->route('admin.dashboard');
+            }else{
+                return redirect('/');
+            }
+
         }
 
         // Authentication failed
@@ -150,7 +156,7 @@ class UserController extends Controller
 
     public function adminDashboard()
     {
-        $userCount = User::count();
+        $userCount = User::where(['role' =>'user'])->count();
         $bookCount = Book::count();
         $availableBooksCount = Book::sum('count');;
         $borrowedBooksCount = Borrow::count();
@@ -191,6 +197,14 @@ class UserController extends Controller
 
         return view('users.detail', compact('borrowedBooks'));
     }
+
+    public function viewBorrowedBooks()
+    {
+        $borrowedBooks = Borrow::with('user', 'book')->get();
+
+        return view('users.admin.borrow_show', compact('borrowedBooks'));
+    }
+
 
 
 

@@ -48,6 +48,8 @@ Route::group(['middleware' => 'admin'], function () {
   Route::get('/admin/edit_book/{book}', [BookController::class, 'editBookForm'])->name('admin.edit_book_form');
   Route::put('/books/{book}', [BookController::class, 'editBook'])->name('books.edit');
   Route::get('/admin/book_show', [BookController::class, 'booksDetial'])->name('admin.book_show');
+  Route::get('/admin/borrowed-books', [UserController::class, 'viewBorrowedBooks'])->name('admin.borrowed-books');
+
 
 
 

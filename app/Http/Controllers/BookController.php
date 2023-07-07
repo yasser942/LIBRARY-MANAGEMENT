@@ -238,17 +238,24 @@ public function books(Request $request)
 
             // Check if the book count is greater than 0
             if ($book->count > 0) {
-                // Create a new borrow record
+                // Calculate the return date
+                $returnDate = now()->addDays(15);
+
+                // Create a new borrow record with the return date
                 Borrow::create([
                     'user_id' => auth()->user()->id,
                     'book_id' => $book->id,
+                    'borrowed_at' => now(),
+                    'return_date' => $returnDate,
                 ]);
+
+
 
                 // Decrease the book count by one
                 $book->decrement('count');
 
                 // Redirect the user back with a success message
-                return redirect()->back()->with('success', 'Book borrowed successfully.');
+                return redirect()->back()->with('success', 'Book borrowed successfully. Return by: ' . $returnDate->toDateString());
             } else {
                 // Redirect the user back with an error message if the book count is 0
                 return redirect()->back()->with('error', 'This book is not available for borrowing.');
@@ -258,6 +265,7 @@ public function books(Request $request)
         // If the user is not a normal user, redirect with an error message
         return redirect()->back()->with('error', 'You are not authorized to borrow books.');
     }
+
 
     public function returnBook(Book $book)
     {

@@ -109,7 +109,7 @@
                       <a class="dropdown-item" href="{{route('admin.add_book')}}"><h5>Add Book</h5></a>
                       <a class="dropdown-item" href="{{route('admin.book_show')}}"><h5>Books Detail</h5></a>
                       <a class="dropdown-item" href="/onhold_show"><h5>Onhold Detail</h5></a>
-                        <a class="dropdown-item" href="/borrow_show"><h5>Borrow Detail</h5></a>
+                        <a class="dropdown-item" href="{{route('admin.borrowed-books')}}"><h5>Borrow Detail</h5></a>
                         <a class="dropdown-item" href="/shelf"><h5>View Shelf</h5></a>
                       <a class="dropdown-item" href="/edit_shelf"><h5>Edit Shelf</h5></a>
                         <a class="dropdown-item" href="/return_book"><h5>Return Book</h5></a>
@@ -151,19 +151,11 @@
                     <h1>WELCOME  TO  DASHBOARD</h1>
                     <h4>Librarian can add/delete/view/issue books, manage fines and edit shelf.</h4>
                     <h5>*****</h5>
-
-
-
-
-
-
-
                 </div>
 
-
-
             </div>
-            <div class="row mt-3">
+
+            <div class="row mt-5">
                 <div class="col-md-3">
                     <div class="circular-progress" id="user-progress">
                         <span class="progress-value">0</span>
@@ -174,7 +166,7 @@
                     <div class="circular-progress" id="book-progress">
                         <span class="progress-value">0</span>
                     </div>
-                    <h1 class="card txt">Total Books</h1>
+                    <h1 class="card txt">Total Distinct Books</h1>
                 </div>
                 <div class="col-md-3">
                     <div class="circular-progress" id="available-progress">
