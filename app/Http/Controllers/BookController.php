@@ -297,17 +297,19 @@ public function books(Request $request)
                     $fine = $daysOverdue * 10; // Assuming a fine of 10 units per day
 
                     // Save the fine in the fines table
-                   $fine= Fine::create([
+                    $fine = Fine::create([
                         'user_id' => auth()->user()->id,
                         'book_id' => $book->id,
                         'amount' => $fine,
                     ]);
-
-
                 }
 
                 // Redirect the user back with a success message
-                return redirect()->back()->with('success', 'Book returned successfully. Fine: ' . $fine->amount);
+                if ($fine) {
+                    return redirect()->back()->with('success', 'Book returned successfully. Fine: ' . $fine->amount);
+                } else {
+                    return redirect()->back()->with('success', 'Book returned successfully. No fine incurred.');
+                }
             } else {
                 // If the borrow record is not found, redirect with an error message
                 return redirect()->back()->with('error', 'You have not borrowed this book.');
@@ -317,6 +319,7 @@ public function books(Request $request)
         // If the user is not a normal user, redirect with an error message
         return redirect()->back()->with('error', 'You are not authorized to return books.');
     }
+
 
 
 
