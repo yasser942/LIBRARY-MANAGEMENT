@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
+use App\Models\Borrow;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -146,10 +148,14 @@ class UserController extends Controller
         return redirect('/');
     }
 
-    public function adminDashboard(){
-        return view('users.admin.dashboard');
+    public function adminDashboard()
+    {
+        $userCount = User::count();
+        $bookCount = Book::count();
+        $availableBooksCount = Book::where('count', '>', 0)->count();
+        $usersWithBorrowedBooksCount = Borrow::distinct('user_id')->count('user_id');
 
-
+        return view('users.admin.dashboard', compact('userCount', 'bookCount', 'availableBooksCount', 'usersWithBorrowedBooksCount'));
     }
 
     public function userDashboard(){

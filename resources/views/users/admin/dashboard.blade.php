@@ -9,6 +9,32 @@
       content="width=device-width, initial-scale=1, user-scalable=no"
     />
 
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+
+              var data = google.visualization.arrayToDataTable([
+                  ['Task', 'Hours per Day'],
+                  ['Users', {{$userCount}}],
+                  ['Books', {{$bookCount}}],
+                  ['Available Books',   {{$availableBooksCount}}],
+                  ['Borrowed Books', {{$usersWithBorrowedBooksCount}}],
+
+              ]);
+
+              var options = {
+                  title: 'Statistics'
+              };
+
+              var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+              chart.draw(data, options);
+          }
+      </script>
+
 
     <link
       rel="stylesheet"
@@ -142,6 +168,7 @@
                   <img src="{{ asset('images/bglib-dashboard.png') }}" />
 
                 </div>
+                <div id="piechart" style="width: 900px; height: 500px;"></div>
             </div>
             <div class="col-lg-5 col-md-5 col-sm-12">
                 <div class="card txt" >
@@ -152,6 +179,7 @@
             </div>
         </div>
     </div>
+
 
     @include('components.footer')
 

@@ -118,7 +118,9 @@
                 <table class="table table-hover">
                     <thead>
                     <tr>
+
                       <th scope="col">Image</th>
+                        <th scope="col">Friend's Name</th>
                       <th scope="col">ISBN</th>
                       <th scope="col">Title</th>
                       <th scope="col">Author</th>
@@ -130,6 +132,7 @@
                         @foreach($borrowedBooks as  $borrow)
                             <tr>
                                 <td> <img src="{{Storage::url($borrow->book->image)}}" style="height:55px; width:55px" alt=""> </td>
+                                <td> {{$borrow->user->name}} </td>
                                 <td> {{$borrow->book->isbn}} </td>
                                 <td> {{$borrow->book->title}} </td>
                                 <td> {{$borrow->book->author}} </td>

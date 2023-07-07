@@ -47,12 +47,13 @@ Route::group(['middleware' => 'admin'], function () {
   Route::delete('/books/{book}', [BookController::class, 'deleteById'])->name('admin.removeBook');
   Route::get('/admin/edit_book/{book}', [BookController::class, 'editBookForm'])->name('admin.edit_book_form');
   Route::put('/books/{book}', [BookController::class, 'editBook'])->name('books.edit');
-  Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
   Route::get('/admin/book_show', [BookController::class, 'booksDetial'])->name('admin.book_show');
 
 
 
 });
+Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
+
 
 
 
@@ -60,7 +61,7 @@ Route::middleware(['user'])->group(function () {
     // Routes that require the normal user middleware
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');
     Route::get('/follower_following', [UserController::class, 'follower_following'])->name('user.follower_following');
-    Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
+    #Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
     Route::post('/user/{user}/follow', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/user/{user}/unfollow', [UserController::class, 'unfollow'])->name('user.unfollow');
     Route::post('/books/{book}/borrow', [BookController::class, 'borrowBook'])->name('borrow');
