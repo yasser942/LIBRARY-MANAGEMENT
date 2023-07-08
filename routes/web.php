@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
@@ -33,6 +34,7 @@ Route::post('/register', [UserController::class, 'store'])->name('users.register
 Route::get('/login', [UserController::class, 'loginform'])->name('users.login');
 Route::post('/login', [UserController::class, 'login'])->name('users.login.submit');
 Route::post('/logout', [UserController::class, 'logout'])->name('users.logout');
+Route::get('/chatify',[MessagesController::class,'index'])->name('chatify');
 
 
 
@@ -50,7 +52,7 @@ Route::group(['middleware' => 'admin'], function () {
   Route::get('/admin/book_show', [BookController::class, 'booksDetial'])->name('admin.book_show');
   Route::get('/admin/borrowed-books', [UserController::class, 'viewBorrowedBooks'])->name('admin.borrowed-books');
   Route::get('/fines', [UserController::class, 'showFines'])->name('fines');
-    Route::delete('/admin/delete-fines/{user}', [UserController::class, 'deleteFines'])->name('admin.deleteFines');
+  Route::delete('/admin/delete-fines/{user}', [UserController::class, 'deleteFines'])->name('admin.deleteFines');
 
 
 
