@@ -58,11 +58,15 @@ class UserController extends Controller
     }
 
 
-    public function showRegisteredUsers (){
+    public function showRegisteredUsers()
+    {
+        $users = User::where('role', '!=', 'admin')
+            ->withCount('fines')
+            ->get();
 
-        $users = User::where('role', '!=', 'admin')->get();
         return view('users.admin.registeredusers', ['users' => $users]);
     }
+
 
     /**
      * Display the specified resource.

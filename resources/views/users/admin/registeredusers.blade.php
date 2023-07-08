@@ -131,12 +131,12 @@
                     <tbody>
                     @foreach ($users as $user)
                        @if (auth()->user()->id !=$user->id)
-                       <tr>
+                       <tr onclick="window.location='{{ route('fines', $user) }}';" style="cursor: pointer;">
                         <td> {{$user->id}}</td>
                         <td> {{$user->name}} </td>
                         <td> {{$user->email}} </td>
                         <td>{{ $user->address}} </td>
-                        <td> 0 </td>
+                        <td> {{$user->fines_count}} </td>
                         </tr>
                        @endif
                     @endforeach
