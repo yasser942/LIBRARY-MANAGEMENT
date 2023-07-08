@@ -14,7 +14,6 @@ function animateProgress(elementId, startValue, endValue, speed, maxValue) {
     }, speed);
 }
 
-
 animateProgress("user-progress", 0, users, 10, 1000);
 animateProgress("book-progress", 0, books, 10, 1000);
 animateProgress("available-progress", 0, available_books, 10, 1000);

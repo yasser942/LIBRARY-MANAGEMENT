@@ -19,28 +19,28 @@ use App\Http\Controllers\UserController;
 
 
 
-Route::post('/books', [BookController::class, 'books'])->name('bookss.search');
-Route::get('/books', [BookController::class, 'books'])->name('books.index');
+Route::post('/books', [BookController::class, 'books'])->name('bookss.search')->middleware('auth');
+Route::get('/books', [BookController::class, 'books'])->name('books.index')->middleware('auth');
 Route::get('/', [BookController::class, 'index'])->name('index');
 Route::post('/', [BookController::class, 'index'])->name('books.search');
 
 
 
-Route::get('/edit/{user}', [UserController::class, 'edit'])->name('users.edit');
-Route::put('/edit/{user}', [UserController::class, 'update'])->name('users.update');
+Route::get('/edit/{user}', [UserController::class, 'edit'])->name('users.edit')->middleware('auth');
+Route::put('/edit/{user}', [UserController::class, 'update'])->name('users.update')->middleware('auth');
 
-Route::get('/register', [UserController::class, 'create'])->name('users.registerform');
-Route::post('/register', [UserController::class, 'store'])->name('users.register');
-Route::get('/login', [UserController::class, 'loginform'])->name('users.login');
-Route::post('/login', [UserController::class, 'login'])->name('users.login.submit');
-Route::post('/logout', [UserController::class, 'logout'])->name('users.logout');
+Route::get('/register', [UserController::class, 'create'])->name('users.registerform')->middleware('guest');
+Route::post('/register', [UserController::class, 'store'])->name('users.register')->middleware('guest');
+Route::get('/login', [UserController::class, 'loginform'])->name('users.login')->middleware('guest');
+Route::post('/login', [UserController::class, 'login'])->name('users.login.submit')->middleware('guest');
+Route::post('/logout', [UserController::class, 'logout'])->name('users.logout')->middleware('auth');
 
-Route::get('/chatify',[MessagesController::class,'index'])->name('chatify');
-Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+Route::get('/chatify',[MessagesController::class,'index'])->name('chatify')->middleware('auth');
+Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show')->middleware('auth');
 
 
 
-Route::group(['middleware' => 'admin'], function () {
+Route::group(['middleware' => ['admin', 'auth']], function () {
 
 
   Route::get('/admin/dashboard', [UserController::class, 'adminDashboard'])->name('admin.dashboard');
@@ -62,16 +62,15 @@ Route::group(['middleware' => 'admin'], function () {
 
 
 });
-Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
+Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers')->middleware('auth');
 
 
 
 
-Route::middleware(['user'])->group(function () {
+Route::middleware(['user','auth'])->group(function () {
     // Routes that require the normal user middleware
     Route::get('/dashboard', [UserController::class, 'userDashboard'])->name('user.dashboard');
     Route::get('/follower_following', [UserController::class, 'follower_following'])->name('user.follower_following');
-    #Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers');
     Route::post('/user/{user}/follow', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/user/{user}/unfollow', [UserController::class, 'unfollow'])->name('user.unfollow');
     Route::post('/books/{book}/borrow', [BookController::class, 'borrowBook'])->name('borrow');
