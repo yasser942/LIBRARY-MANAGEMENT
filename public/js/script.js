@@ -15,7 +15,7 @@ function animateProgress(elementId, startValue, endValue, speed, maxValue) {
 }
 
 
-animateProgress("user-progress", 0, users, 10, 1000);
-animateProgress("book-progress", 0, books, 10, 1000);
-animateProgress("available-progress", 0, available_books, 10, 1000);
-animateProgress("borrowed-progress", 0, borrowed_books, 10, 1000);
+animateProgress("user-progress", 0, users, 40, 1000);
+animateProgress("book-progress", 0, books, 40, 1000);
+animateProgress("available-progress", 0, available_books, 40, 1000);
+animateProgress("borrowed-progress", 0, borrowed_books, 40, 1000);

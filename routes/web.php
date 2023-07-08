@@ -34,7 +34,9 @@ Route::post('/register', [UserController::class, 'store'])->name('users.register
 Route::get('/login', [UserController::class, 'loginform'])->name('users.login');
 Route::post('/login', [UserController::class, 'login'])->name('users.login.submit');
 Route::post('/logout', [UserController::class, 'logout'])->name('users.logout');
+
 Route::get('/chatify',[MessagesController::class,'index'])->name('chatify');
+Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 
 
 

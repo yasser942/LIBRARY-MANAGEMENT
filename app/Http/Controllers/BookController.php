@@ -140,9 +140,13 @@ public function books(Request $request)
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show($id)
     {
-        //
+        // Retrieve the book by ID
+        $book = Book::findOrFail($id);
+
+        // Pass the book data to the view, including the PDF attribute
+        return view('books.show', ['book' => $book]);
     }
 
 

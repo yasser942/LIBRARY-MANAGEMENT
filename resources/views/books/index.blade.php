@@ -340,6 +340,10 @@
                                                          @csrf
                                                          <button type="submit">Return</button>
                                                      </form>
+
+                                                     <a href="{{ route('books.show', $book) }}" ><button type="submit">View</button></a>
+
+
                                                  @endif
                                              @endif
                                          </div>
