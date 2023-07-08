@@ -74,6 +74,9 @@
                       </form>
                   </div>
                   </li>
+                        <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                            <a class="nav-link" href="{{route('chatify',auth()->user()->id)}}"><h5>Chat Members</h5></a>
+                        </li>
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                        <a class="nav-link" href="{{route('admin.registeredusers')}}"><h5>Members List</h5></a>
                    </li>

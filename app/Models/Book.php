@@ -9,7 +9,7 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['image','isbn','title', 'author', 'year','category', 'count'];
+    protected $fillable = ['image','isbn','title', 'author', 'year','category', 'count','pdf_path'];
 
     public function borrows()
     {

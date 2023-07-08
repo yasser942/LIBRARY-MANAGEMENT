@@ -103,33 +103,37 @@ public function books(Request $request)
      */
     public function store(Request $request)
     {
-
-
-
         $validatedData = $request->validate([
             'isbn' => 'required|unique:books',
             'title' => 'required',
             'author' => 'required',
             'year' => 'required|integer',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg'
+            'image' => 'required|image|mimes:jpeg,png,jpg',
+            'pdf_file' => 'required|mimes:pdf'
         ]);
 
         $imagePath = null;
+        $pdfPath = null;
 
         if ($request->hasFile('image')) {
-            $uploadedFile = $request->file('image');
-            $imagePath = Storage::putFile('public/images', $uploadedFile);
+            $uploadedImage = $request->file('image');
+            $imagePath = Storage::putFile('public/images', $uploadedImage);
         }
 
-        $validatedData['image']=$imagePath;
-         // Create a new book using the validated data
-         $book = Book::create($validatedData);
+        if ($request->hasFile('pdf_file')) {
+            $uploadedPDF = $request->file('pdf_file');
+            $pdfPath = Storage::putFile('public/pdfs', $uploadedPDF);
+        }
 
+        $validatedData['image'] = $imagePath;
+        $validatedData['pdf_path'] = $pdfPath;
 
-    // Redirect to the book's details page
-    return redirect()->route('books.index');
+        // Create a new book using the validated data
+        $book = Book::create($validatedData);
 
+        // Redirect to the book's details page
+        return redirect()->route('books.index');
     }
 
 
@@ -156,37 +160,46 @@ public function books(Request $request)
      */
     public function editBook(Request $request, Book $book)
     {
-
-
         $validatedData = $request->validate([
             'isbn' => 'required|unique:books,isbn,' . $book->id,
             'title' => 'required',
             'author' => 'required',
             'year' => 'required|integer',
             'category' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg'
+            'image' => 'image|mimes:jpeg,png,jpg',
+            'pdf_file' => 'nullable|mimes:pdf'
         ]);
 
         $imagePath = null;
+        $pdfPath = $book->pdf_path;
 
         if ($request->hasFile('image')) {
-            $uploadedFile = $request->file('image');
-            $imagePath = Storage::putFile('public/images', $uploadedFile);
-            $validatedData['image'] = $imagePath;
+            $uploadedImage = $request->file('image');
+            $imagePath = Storage::putFile('public/images', $uploadedImage);
         } else {
-            $validatedData['image'] = $book->image;
+            $imagePath = $book->image;
         }
 
+        if ($request->hasFile('pdf_file')) {
+            $uploadedPDF = $request->file('pdf_file');
+            $pdfPath = Storage::putFile('public/pdfs', $uploadedPDF);
+        }
+
+        $validatedData['image'] = $imagePath;
+
+        // Only update the pdf_path if a new PDF file was uploaded
+        if ($request->hasFile('pdf_file')) {
+            $validatedData['pdf_path'] = $pdfPath;
+        }
 
         $redirectUrl = $request->input('redirect_url');
 
-         // Update the book with the validated data
-         $book->update($validatedData);
-         return redirect($redirectUrl)->to($redirectUrl)->with('success', 'Book updated successfully');
+        // Update the book with the validated data
+        $book->update($validatedData);
 
-
-
+        return redirect($redirectUrl)->to($redirectUrl)->with('success', 'Book updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.

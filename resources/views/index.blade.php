@@ -317,7 +317,8 @@
                  <td>
                    <div class="d-flex">
                      <a href="{{route('admin.edit_book_form',['book' => $book->id, 'redirect_url' => url()->current()])}}" class="btn btn-primary mr-2">Edit</a>
-                     <form action="{{route('admin.removeBook',$book->id)}}" method="POST">
+                       <a href="{{ route('books.show', $book) }}"  class="btn btn-primary mr-2">View</a>
+                       <form action="{{route('admin.removeBook',$book->id)}}" method="POST">
                          @csrf
                          @method('DELETE')
                          <input type="hidden" name="redirect_url" value="{{ url()->current() }}">

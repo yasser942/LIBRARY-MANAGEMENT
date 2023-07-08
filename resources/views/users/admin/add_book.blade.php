@@ -253,10 +253,17 @@
 
               <!-- Image -->
               <div class="input-group col-lg-12 mb-4">
-
+                  <label for="image">Upload Image:</label>
               <input  type="file" id="file" name="image" placeholder="Image" >
 
               </div>
+                <!-- PDF -->
+                <div class="input-group col-lg-12 mb-4">
+
+                    <label for="pdf_file">Upload PDF:</label>
+                    <input type="file" name="pdf_file" id="pdf_file">
+
+                </div>
               <!-- Submit Button -->
               <div class="form-group col-lg-12 mx-auto mb-0">
                 <button class="btn btn-block py-2">
