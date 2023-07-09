@@ -78,6 +78,8 @@ Route::middleware(['user','auth'])->group(function () {
     Route::post('/books/{book}/return', [BookController::class, 'returnBook'])->name('return');
     Route::get('/user/{user}/borrowed-books', [UserController::class, 'showBorrowedBooks'])->name('user.borrowedBooks');
     Route::get('/personal-shelf/{userId}', [UserController::class, 'showPersonalShelf'])->name('personal-shelf.show');
+    Route::get('/user/fines/{userId}', [UserController::class, 'userFines'])->name('user.fines');
+
 
 
 

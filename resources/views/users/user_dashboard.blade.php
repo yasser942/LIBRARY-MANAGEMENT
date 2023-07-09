@@ -98,7 +98,7 @@
                       <a class="dropdown-item" href="{{route('personal-shelf.show',auth()->user()->id)}}"><h5>Personal Bookshelf</h5></a>
                       <a class="dropdown-item" href="/follower_following"><h5>Followers/Following</h5></a>
                       <a class="dropdown-item" href="/books"><h5>View Book</h5></a>
-                      <a class="dropdown-item" href="/fines"><h5>Fines</h5></a>
+                      <a class="dropdown-item" href="{{route('user.fines',auth()->user()->id)}}"><h5>Fines</h5></a>
                     </div>
                   </li>
 

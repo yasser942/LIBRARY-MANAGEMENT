@@ -242,5 +242,18 @@ class UserController extends Controller
         return view('users.personal_bookshelf', compact('user', 'borrowedBooks'));
     }
 
+    public function userFines($userId)
+    {
+        // Retrieve the user's fines and the related book information
+        $user = User::findOrFail($userId);
+        $fines = $user->fines()->with('book')->get();
+
+        // Calculate the sum of fines
+        $totalFine = $fines->sum('amount');
+
+        return view('users.fines', compact('user', 'fines', 'totalFine'));
+    }
+
+
 
 }
