@@ -103,8 +103,11 @@
                   </li>
 
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                        <a class="nav-link" href="/books"><h5>Books</h5></a>
+                        <a class="nav-link" href="/books"><h5>Book Categories</h5></a>
                      </li>
+                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                        <a class="nav-link" href="{{route('index')}}"><h5>Books List</h5></a>
+                    </li>
 
                    @endif
                    @else

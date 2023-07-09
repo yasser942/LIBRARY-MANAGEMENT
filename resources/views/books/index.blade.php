@@ -105,7 +105,7 @@
                        @endif
                    @endauth
                    <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                    <a class="nav-link" href="/"><h5>Home</h5></a>
+                    <a class="nav-link" href="/"><h5>Books List</h5></a>
                   </li>
 
 

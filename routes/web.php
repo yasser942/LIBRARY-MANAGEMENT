@@ -42,7 +42,6 @@ Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show')
 
 Route::group(['middleware' => ['admin', 'auth']], function () {
 
-
   Route::get('/admin/dashboard', [UserController::class, 'adminDashboard'])->name('admin.dashboard');
   Route::get('/admin/add_book', [BookController::class, 'addBookForm'])->name('admin.add_book');
   Route::post('/books/store', [BookController::class, 'store'])->name('admin.storeBook');
@@ -51,7 +50,7 @@ Route::group(['middleware' => ['admin', 'auth']], function () {
   Route::delete('/books/{book}', [BookController::class, 'deleteById'])->name('admin.removeBook');
   Route::get('/admin/edit_book/{book}', [BookController::class, 'editBookForm'])->name('admin.edit_book_form');
   Route::put('/books/{book}', [BookController::class, 'editBook'])->name('books.edit');
-  Route::get('/admin/book_show', [BookController::class, 'booksDetial'])->name('admin.book_show');
+  Route::get('/admin/book_show', [BookController::class, 'booksDetail'])->name('admin.book_show');
   Route::get('/admin/borrowed-books', [UserController::class, 'viewBorrowedBooks'])->name('admin.borrowed-books');
   Route::get('/fines', [UserController::class, 'showFines'])->name('fines');
   Route::delete('/admin/delete-fines/{user}', [UserController::class, 'deleteFines'])->name('admin.deleteFines');

@@ -235,7 +235,7 @@ public function books(Request $request)
 
     }
 
-    public function booksDetial(){
+    public function booksDetail(){
         $books=Book::all();
 
         return view('users.admin.book_show',compact('books'));

@@ -140,7 +140,7 @@ class UserController extends Controller
             if (\auth()->user()->role=='admin') {
                 return redirect()->route('admin.dashboard');
             }else{
-                return redirect('/');
+                return redirect()->route('user.dashboard');
             }
 
         }
