@@ -190,7 +190,8 @@ public function books(Request $request)
             'year' => 'required|integer',
             'category' => 'required',
             'image' => 'image|mimes:jpeg,png,jpg',
-            'pdf_file' => 'nullable|mimes:pdf'
+            'pdf_file' => 'nullable|mimes:pdf',
+            'count' => 'required|integer|min:1',
         ]);
 
         $imagePath = null;
@@ -217,11 +218,25 @@ public function books(Request $request)
 
         $redirectUrl = $request->input('redirect_url');
 
+        // Check if the book count exceeds the available amount of free places on the shelf
+        $shelf = $book->shelf;
+        $availablePlaces = $shelf->capacity - $shelf->occupied_count;
+        $bookCount = $validatedData['count'];
+
+        if ($bookCount > $availablePlaces) {
+            $errorMessage = 'Book count exceeds the available places on the shelf. Reduce the count to fit the available places (' . $availablePlaces . ').';
+            return redirect()->back()->with('error', $errorMessage);
+        }
+
         // Update the book with the validated data
         $book->update($validatedData);
+        // Update the occupied count on the shelf
+        $shelf->occupied_count = $shelf->books()->sum('count');
+        $shelf->save();
 
         return redirect($redirectUrl)->to($redirectUrl)->with('success', 'Book updated successfully');
     }
+
 
 
     /**

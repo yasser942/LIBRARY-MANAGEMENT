@@ -143,6 +143,13 @@
               </ul>
           </div>
       @endif
+              @if (session('error'))
+                  <div class="alert alert-danger alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+                      <strong>{{ session('error') }}</strong>
+                  </div>
+              @endif
+
           <form action="{{route('books.edit',$book->id)}}" method="post" enctype="multipart/form-data">
             @csrf
 
@@ -250,6 +257,26 @@
                   required
                 />
               </div>
+                <!-- Count -->
+                <div class="input-group col-lg-12 mb-4">
+                    <div class="input-group-prepend">
+                  <span
+                      class="input-group-text bg-white px-4 border-md border-right-0"
+                  >
+                    <i class="fa fa-list-ol" aria-hidden="true"></i>
+                  </span>
+                    </div>
+
+                    <input
+                        id="count"
+                        type="number"
+                        name="count"
+                        placeholder="Count"
+                        class="form-control bg-white border-md border-left-0 pl-3"
+                        value="{{$book->count}}"
+                        required
+                    />
+                </div>
 
 
 
