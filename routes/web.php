@@ -20,26 +20,34 @@ use App\Http\Controllers\UserController;
 
 
 
-Route::post('/books', [BookController::class, 'books'])->name('bookss.search')->middleware('auth');
-Route::get('/books', [BookController::class, 'books'])->name('books.index')->middleware('auth');
+
 Route::get('/', [BookController::class, 'index'])->name('index');
 Route::post('/', [BookController::class, 'index'])->name('books.search');
 
 
 
-Route::get('/edit/{user}', [UserController::class, 'edit'])->name('users.edit')->middleware('auth');
-Route::put('/edit/{user}', [UserController::class, 'update'])->name('users.update')->middleware('auth');
-
-Route::get('/register', [UserController::class, 'create'])->name('users.registerform')->middleware('guest');
-Route::post('/register', [UserController::class, 'store'])->name('users.register')->middleware('guest');
-Route::get('/login', [UserController::class, 'loginform'])->name('users.login')->middleware('guest');
-Route::post('/login', [UserController::class, 'login'])->name('users.login.submit')->middleware('guest');
-Route::post('/logout', [UserController::class, 'logout'])->name('users.logout')->middleware('auth');
-
-Route::get('/chatify',[MessagesController::class,'index'])->name('chatify')->middleware('auth');
-Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show')->middleware('auth');
 
 
+
+
+Route::group(['guest'],function (){
+    Route::get('/register', [UserController::class, 'create'])->name('users.registerform');
+    Route::post('/register', [UserController::class, 'store'])->name('users.register');
+    Route::get('/login', [UserController::class, 'loginform'])->name('users.login');
+    Route::post('/login', [UserController::class, 'login'])->name('users.login.submit');
+});
+
+
+Route::group(['auth'],function (){
+    Route::post('/books', [BookController::class, 'books'])->name('bookss.search');
+    Route::get('/books', [BookController::class, 'books'])->name('books.index');
+    Route::get('/edit/{user}', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/edit/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::post('/logout', [UserController::class, 'logout'])->name('users.logout');
+    Route::get('/chatify',[MessagesController::class,'index'])->name('chatify');
+    Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+    Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers')->middleware('auth');
+});
 
 Route::group(['middleware' => ['admin', 'auth']], function () {
 
@@ -63,7 +71,7 @@ Route::group(['middleware' => ['admin', 'auth']], function () {
 
 
 });
-Route::get('/admin/registeredusers', [UserController::class, 'showRegisteredUsers'])->name('admin.registeredusers')->middleware('auth');
+
 
 
 
