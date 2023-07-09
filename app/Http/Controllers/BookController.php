@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Borrow;
 use App\Models\Fine;
+use App\Models\Shelf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -110,7 +111,8 @@ public function books(Request $request)
             'year' => 'required|integer',
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
-            'pdf_file' => 'required|mimes:pdf'
+            'pdf_file' => 'required|mimes:pdf',
+            'count' => 'required|integer|min:1',
         ]);
 
         $imagePath = null;
@@ -132,9 +134,30 @@ public function books(Request $request)
         // Create a new book using the validated data
         $book = Book::create($validatedData);
 
+        // Find all shelves with available capacity
+        $availableShelves = Shelf::whereRaw('capacity - occupied_count >= ?', $validatedData['count'])->get();
+
+        if ($availableShelves->isEmpty()) {
+            // If no shelf has available capacity, handle the situation accordingly (e.g., show an error message)
+            return redirect()->route('books.index')->with('error', 'No available shelf for the book.');
+        }
+
+        // Select a random shelf from the available shelves
+        $selectedShelf = $availableShelves->random();
+
+        // Assign the book to the selected shelf
+        $book->shelf_id = $selectedShelf->id;
+        $book->save();
+
+        // Increment the occupied count on the selected shelf
+        $selectedShelf->increment('occupied_count', $validatedData['count']);
+
         // Redirect to the book's details page
-        return redirect()->route('books.index');
+        return redirect()->route('books.index')->with('success', 'Book added successfully.');
     }
+
+
+
 
 
     public function removeBookForm(){
@@ -206,33 +229,43 @@ public function books(Request $request)
      */
     public function destroy(Request $request)
     {
-            // Get the input values from the request
+        // Get the input values from the request
         $isbn = $request->input('isbn');
         $id = $request->input('book_id');
 
         // Find the book based on the provided isbn and/or id
         $book = Book::where('isbn', $isbn)->orWhere('id', $id)->first();
-        // Get the redirect URL from the request
-        $redirectUrl = $request->input('redirect_url');
-
-
 
         // Check if the book exists
         if ($book) {
+            $shelf = $book->shelf;
+
+            // Decrement the occupied count of the associated shelf by the count of the book
+            $shelf->decrement('occupied_count', $book->count);
+
             // Delete the book
             $book->delete();
+
+            $redirectUrl = $request->input('redirect_url');
             return redirect()->to($redirectUrl)->with('success', 'Book removed successfully');
         } else {
             return redirect()->back()->with('error', 'Book not found');
         }
     }
 
-    public function deleteById(Request $request, Book $book){
-         // Delete the book from the database
-            $book->delete();
-            $redirectUrl = $request->input('redirect_url');
-            return redirect()->to($redirectUrl)->with('success', 'Book removed successfully');
 
+    public function deleteById(Request $request, Book $book)
+    {
+        $shelf = $book->shelf;
+
+        // Decrement the occupied count of the associated shelf by the count of the book
+        $shelf->decrement('occupied_count', $book->count);
+
+        // Delete the book from the database
+        $book->delete();
+
+        $redirectUrl = $request->input('redirect_url');
+        return redirect()->to($redirectUrl)->with('success', 'Book removed successfully');
     }
 
     public function booksDetail(){

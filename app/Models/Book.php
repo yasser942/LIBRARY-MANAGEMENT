@@ -19,4 +19,9 @@ class Book extends Model
     {
         return $this->hasMany(Fine::class);
     }
+
+    public function shelf()
+    {
+        return $this->belongsTo(Shelf::class);
+    }
 }

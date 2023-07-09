@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Book;
+use App\Models\Shelf;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +20,18 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        Book::factory()->count(10)->create();
+        $shelfIds = Shelf::pluck('id')->toArray();
+
+        Book::factory()
+            ->count(10)
+            ->afterCreating(function (Book $book) use ($shelfIds) {
+                $shelf = Shelf::find($book->shelf_id);
+                if ($shelf) {
+                    $shelf->occupied_count += $book->count;
+                    $shelf->save();
+                }
+            })
+            ->create();
+
     }
 }

@@ -248,6 +248,28 @@
                 />
               </div>
 
+                <!-- Count -->
+                <div class="input-group col-lg-12 mb-4">
+                    <div class="input-group-prepend">
+                  <span
+                      class="input-group-text bg-white px-4 border-md border-right-0"
+                  >
+                    <i class="fa fa-list-ol" aria-hidden="true"></i>
+                  </span>
+                    </div>
+
+                    <input
+                        id="count"
+                        type="number"
+                        name="count"
+                        placeholder="Count"
+                        class="form-control bg-white border-md border-left-0 pl-3"
+                        value="{{old('count')}}"
+                        required
+                    />
+                </div>
+
+
 
 
 
