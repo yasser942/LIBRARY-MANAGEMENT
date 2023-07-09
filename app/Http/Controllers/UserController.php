@@ -233,4 +233,14 @@ class UserController extends Controller
             return redirect()->back()->with('success', 'Fines deleted successfully.');
         }
 
+    public function showPersonalShelf($userId)
+    {
+        // Retrieve the user's borrowed books
+        $user = User::findOrFail($userId);
+        $borrowedBooks = $user->borrows()->with('book')->get();
+
+        return view('users.personal_bookshelf', compact('user', 'borrowedBooks'));
+    }
+
+
 }
