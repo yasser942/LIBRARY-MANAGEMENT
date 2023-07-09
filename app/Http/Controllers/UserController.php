@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Borrow;
+use App\Models\Shelf;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -160,16 +161,16 @@ class UserController extends Controller
 
     public function adminDashboard()
     {
-        $userCount = User::where(['role' =>'user'])->count();
+        $userCount = User::where('role', 'user')->count();
         $bookCount = Book::count();
-        $availableBooksCount = Book::sum('count');;
+        $availableBooksCount = Book::sum('count');
         $borrowedBooksCount = Borrow::count();
+        $shelves = Shelf::all();
 
 
-
-
-        return view('users.admin.dashboard', compact('userCount', 'bookCount', 'availableBooksCount', 'borrowedBooksCount'));
+        return view('users.admin.dashboard', compact('userCount', 'bookCount', 'availableBooksCount', 'borrowedBooksCount', 'shelves'));
     }
+
 
     public function userDashboard(){
         return view('users.user_dashboard');

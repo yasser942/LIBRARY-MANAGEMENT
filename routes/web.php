@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ShelfController;
 use App\Http\Controllers\vendor\Chatify\MessagesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
@@ -54,6 +55,7 @@ Route::group(['middleware' => ['admin', 'auth']], function () {
   Route::get('/admin/borrowed-books', [UserController::class, 'viewBorrowedBooks'])->name('admin.borrowed-books');
   Route::get('/fines', [UserController::class, 'showFines'])->name('fines');
   Route::delete('/admin/delete-fines/{user}', [UserController::class, 'deleteFines'])->name('admin.deleteFines');
+  Route::get('/shelves', [ShelfController::class, 'index'])->name('shelves.index');
 
 
 

@@ -139,9 +139,9 @@
                   <td> {{ $book->isbn}} </td>
                   <td> {{ $book->title}} </td>
                   <td> {{ $book->author}} </td>
-                  <td> 0 </td>
-                  <td> 0 </td>
-                  <td> 0 </td>
+                  <td> {{ $book->year}} </td>
+                  <td> {{ $book->shelf_id}} </td>
+                  <td> {{ $book->count}} </td>
                   <td> 0 </td>
                   <td> {{ $book->category}} </td>
                   <td> on shelf</td>

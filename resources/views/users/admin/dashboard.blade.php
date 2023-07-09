@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <title>lms</title>
+    <title>LMS</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -112,7 +112,7 @@
                       <a class="dropdown-item" href="{{route('admin.book_show')}}"><h5>Books Detail</h5></a>
                       <a class="dropdown-item" href="#"><h5>Onhold Detail</h5></a>
                         <a class="dropdown-item" href="{{route('admin.borrowed-books')}}"><h5>Borrow Detail</h5></a>
-                        <a class="dropdown-item" href="/shelf"><h5>View Shelf</h5></a>
+                        <a class="dropdown-item" href="{{route('shelves.index')}}"><h5>View Shelf</h5></a>
                       <a class="dropdown-item" href="/edit_shelf"><h5>Edit Shelf</h5></a>
                         <a class="dropdown-item" href="/return_book"><h5>Return Book</h5></a>
                     </div>
@@ -182,9 +182,38 @@
                     </div>
                     <h1 class="card txt">Borrowed Books</h1>
                 </div>
+
+                <div class="col-md-3  mt-5">
+                    <div class="circular-progress" id="Shelf_1">
+                        <span class="progress-value">0</span>
+                    </div>
+                    <h1 class="card txt">Shelf 1</h1>
+                </div>
+                <div class="col-md-3  mt-5">
+                    <div class="circular-progress" id="Shelf_2">
+                        <span class="progress-value">0</span>
+                    </div>
+                    <h1 class="card txt">Shelf 2</h1>
+                </div>
+                <div class="col-md-3  mt-5">
+                    <div class="circular-progress" id="Shelf_3">
+                        <span class="progress-value">0</span>
+                    </div>
+                    <h1 class="card txt">Shelf 3</h1>
+                </div>
+                <div class="col-md-3  mt-5">
+                    <div class="circular-progress" id="Shelf_4">
+                        <span class="progress-value">0</span>
+                    </div>
+                    <h1 class="card txt">Shelf 4</h1>
+                </div>
+
+
+
             </div>
         </div>
     </div>
+
 
 
     @include('components.footer')
@@ -212,7 +241,18 @@
         var users = {{$userCount}};
         var books = {{$bookCount}};
         var available_books = {{$availableBooksCount}};
-        var borrowed_books = {{$borrowedBooksCount}}
+        var borrowed_books = {{$borrowedBooksCount}};
+
+        var shelves = [
+            @foreach ($shelves as $shelf)
+        {
+            name: "{{ $shelf->name }}",
+            totalBooks: {{$shelf->occupied_count}},
+            capacity: {{ $shelf->capacity }},
+            availableSpace: {{ $shelf->capacity - $shelf->books_count }}
+        },
+        @endforeach
+    ];
     </script>
     <script src="{{asset('js/script.js')}}"></script>
   </body>
