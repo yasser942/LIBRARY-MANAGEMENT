@@ -385,6 +385,51 @@ public function books(Request $request)
         return redirect()->back()->with('error', 'You are not authorized to return books.');
     }
 
+    public function editShelf()
+    {
+        return view('users.admin.edit_shelf');
+    }
+    public function moveBook(Request $request)
+    {
+        $validatedData = $request->validate([
+            'book_id' => 'required|exists:books,id',
+            'shelf_id' => 'required|exists:shelfs,id',
+        ]);
+
+        $bookId = $validatedData['book_id'];
+        $shelfId = $validatedData['shelf_id'];
+
+        // Retrieve the book and shelf objects
+        $book = Book::find($bookId);
+        $shelf = Shelf::find($shelfId);
+
+        if (!$book || !$shelf) {
+            return redirect()->back()->with('error', 'Invalid book or shelf.');
+        }
+
+        // Check if the destination shelf is the same as the current shelf
+        if ($book->shelf_id === $shelf->id) {
+            return redirect()->back()->with('error', 'The book is already on the destination shelf.');
+        }
+
+        // Check if the destination shelf has enough capacity
+        $requiredSpace = $book->count;
+        $availableSpace = $shelf->capacity - $shelf->occupied_count;
+        if ($availableSpace < $requiredSpace) {
+            return redirect()->back()->with('error', 'The destination shelf does not have enough space for the book count.');
+        }
+
+        // Update the book's shelf ID
+        $previousShelfId = $book->shelf_id;
+        $book->shelf_id = $shelf->id;
+        $book->save();
+
+        // Adjust the occupied count of the shelves
+        Shelf::find($previousShelfId)->decrement('occupied_count', $book->count);
+        $shelf->increment('occupied_count', $book->count);
+
+        return redirect()->back()->with('success', 'Book moved successfully.');
+    }
 
 
 

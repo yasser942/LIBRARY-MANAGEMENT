@@ -17,18 +17,8 @@ use App\Http\Controllers\UserController;
 |
 */
 
-
-
-
-
 Route::get('/', [BookController::class, 'index'])->name('index');
 Route::post('/', [BookController::class, 'index'])->name('books.search');
-
-
-
-
-
-
 
 Route::group(['guest'],function (){
     Route::get('/register', [UserController::class, 'create'])->name('users.registerform');
@@ -64,16 +54,10 @@ Route::group(['middleware' => ['admin', 'auth']], function () {
   Route::get('/fines', [UserController::class, 'showFines'])->name('fines');
   Route::delete('/admin/delete-fines/{user}', [UserController::class, 'deleteFines'])->name('admin.deleteFines');
   Route::get('/shelves', [ShelfController::class, 'index'])->name('shelves.index');
-
-
-
-
-
+  Route::get('/edit_shelf', [BookController::class,'editShelf'])->name('edit_shelf.page');
+  Route::put('/edit_shelf', [BookController::class,'moveBook'])->name('edit_shelf');
 
 });
-
-
-
 
 
 Route::middleware(['user','auth'])->group(function () {
@@ -87,10 +71,6 @@ Route::middleware(['user','auth'])->group(function () {
     Route::get('/user/{user}/borrowed-books', [UserController::class, 'showBorrowedBooks'])->name('user.borrowedBooks');
     Route::get('/personal-shelf/{userId}', [UserController::class, 'showPersonalShelf'])->name('personal-shelf.show');
     Route::get('/user/fines/{userId}', [UserController::class, 'userFines'])->name('user.fines');
-
-
-
-
 });
 
 
