@@ -154,6 +154,8 @@
                   name="book_id"
                   placeholder="Book ID"
                   class="form-control bg-white border-left-0 border-md"
+                  value="{{old('book_id')}}"
+
                   required
                 />
               </div>
@@ -168,11 +170,12 @@
                   </span>
                 </div>
                 <input
-                  id="shelf_Id"
+                  id="shelf_id"
                   type="number"
                   name="shelf_id"
                   placeholder="Move to shelf"
                   class="form-control bg-white border-left-0 border-md"
+                  value="{{old('shelf_id')}}"
 
                   required
                 />
