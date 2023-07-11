@@ -124,16 +124,11 @@
                       <th scope="col">count</th>
                       <th scope="col">Borrow Count</th>
                       <th scope="col">Category</th>
-                      <th scope="col">Book Shelf Status</th>
                       <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                   @foreach ($books as $book)
-
-
-
-
                   <tr>
                   <td> {{ $book->id}} </td>
                   <td> {{ $book->isbn}} </td>
@@ -142,9 +137,8 @@
                   <td> {{ $book->year}} </td>
                   <td> {{ $book->shelf_id}} </td>
                   <td> {{ $book->count}} </td>
-                  <td> 0 </td>
+                  <td> {{$book->borrows_count }} </td>
                   <td> {{ $book->category}} </td>
-                  <td> on shelf</td>
                   <td>
                     <div class="d-flex">
                       <a href="{{route('admin.edit_book_form',$book->id)}}" class="btn btn-primary mr-2">Edit</a>

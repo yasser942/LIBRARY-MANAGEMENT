@@ -283,13 +283,17 @@ public function books(Request $request)
         return redirect()->to($redirectUrl)->with('success', 'Book removed successfully');
     }
 
-    public function booksDetail(){
-        $books=Book::all();
+    public function booksDetail()
+    {
+        // Retrieve all books with the borrowed count
+        $books = Book::withCount('borrows')->get();
 
-        return view('users.admin.book_show',compact('books'));
+        return view('users.admin.book_show', compact('books'));
     }
 
-    public function editBookForm(Book $book){
+
+    public function editBookForm(Book $book): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    {
         return view( 'users.admin.edit_book', compact('book'));
     }
 

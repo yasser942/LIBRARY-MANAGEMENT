@@ -29,7 +29,7 @@
                     <a
                         class="navbar-brand"
                         href="/"
-                        target="_blank"
+
                     ><h1><i class="fa fa-book"></i> LMS</h1></a>
 
                     <button

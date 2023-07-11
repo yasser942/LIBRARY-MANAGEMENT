@@ -110,11 +110,9 @@
                     <div class="dropdown-menu">
                       <a class="dropdown-item" href="{{route('admin.add_book')}}"><h5>Add Book</h5></a>
                       <a class="dropdown-item" href="{{route('admin.book_show')}}"><h5>Books Detail</h5></a>
-                      <a class="dropdown-item" href="#"><h5>Onhold Detail</h5></a>
                         <a class="dropdown-item" href="{{route('admin.borrowed-books')}}"><h5>Borrow Detail</h5></a>
                         <a class="dropdown-item" href="{{route('shelves.index')}}"><h5>View Shelf</h5></a>
                       <a class="dropdown-item" href="{{route('edit_shelf.page')}}"><h5>Edit Shelf</h5></a>
-                        <a class="dropdown-item" href="/return_book"><h5>Return Book</h5></a>
                     </div>
                   </li>
                     <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
